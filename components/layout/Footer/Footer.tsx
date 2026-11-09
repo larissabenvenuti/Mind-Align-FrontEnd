@@ -1,10 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 import styles from "./Footer.module.scss";
 
 export const Footer = () => {
+  const pathname = usePathname();
   const currentYear = new Date().getFullYear();
+
+  if (pathname === "/auth" || pathname.startsWith("/auth/")) {
+    return null;
+  }
 
   return (
     <motion.footer
