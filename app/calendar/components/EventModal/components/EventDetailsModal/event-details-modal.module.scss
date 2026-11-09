@@ -1,0 +1,195 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: hsl(var(--background) / 0.6);
+  backdrop-filter: blur(8px);
+  @include flex-center;
+  z-index: $z-modal;
+  padding: $spacing-4;
+}
+
+.modal {
+  @include glassmorphism-strong;
+  border-radius: $radius-xl;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  overflow: hidden;
+}
+
+.closeBtn {
+  position: absolute;
+  top: $spacing-4;
+  right: $spacing-4;
+  background: transparent;
+  color: $text-muted;
+  z-index: 10;
+
+  &:hover {
+    background: hsl(var(--muted));
+    color: $foreground;
+  }
+}
+
+.iconBase {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.header {
+  display: flex;
+  gap: $spacing-4;
+  padding: $spacing-6;
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+  align-items: center;
+}
+
+.iconWrapper {
+  @include flex-center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: $radius;
+  background: hsl(var(--primary) / 0.15);
+  color: hsl(var(--primary));
+}
+
+.headerIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.title {
+  font-size: $font-size-xl;
+  margin: 0 0 4px 0;
+  color: $foreground;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  background: hsl(var(--success) / 0.15);
+  color: hsl(var(--success));
+  border-radius: $radius-full;
+}
+
+.body {
+  padding: $spacing-6;
+  @include flex-column;
+  gap: $spacing-6;
+}
+
+.infoRow {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-4;
+}
+
+.clockIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: $text-secondary;
+  margin-top: 2px;
+}
+
+.timeGroup {
+  @include flex-column;
+  gap: 2px;
+}
+
+.label {
+  font-size: $font-size-sm;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.value {
+  font-size: $font-size-base;
+  color: $foreground;
+  font-weight: 500;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-4;
+}
+
+.infoBox {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: $radius-md;
+  padding: $spacing-3;
+  @include flex-column;
+  gap: $spacing-1;
+}
+
+.boxHeader {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  font-size: 0.8rem;
+  color: $text-muted;
+  font-weight: 500;
+}
+
+.bellIcon {
+  width: 1rem;
+  height: 1rem;
+  color: hsl(var(--accent));
+}
+.repeatIcon {
+  width: 1rem;
+  height: 1rem;
+  color: hsl(var(--success));
+}
+
+.boxValue {
+  font-size: $font-size-sm;
+  font-weight: 600;
+  color: $foreground;
+}
+
+.boxValueCapitalize {
+  font-size: $font-size-sm;
+  font-weight: 600;
+  color: $foreground;
+  text-transform: capitalize;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-3;
+  padding: $spacing-4 $spacing-6;
+  background: hsl(var(--card) / 0.3);
+  border-top: 1px solid hsl(var(--border) / 0.5);
+}
+
+.btnDelete {
+  background: transparent;
+  color: hsl(var(--destructive));
+  border-color: hsl(var(--destructive) / 0.3);
+
+  &:hover {
+    background: hsl(var(--destructive) / 0.1);
+    color: hsl(var(--destructive));
+  }
+}
+
+.btnEdit {
+  background: transparent;
+  border: 1px solid hsl(var(--primary) / 0.45);
+  color: hsl(var(--primary));
+
+  &:hover {
+    background: hsl(var(--primary) / 0.08);
+    border-color: hsl(var(--primary));
+  }
+}

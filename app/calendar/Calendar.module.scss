@@ -1,0 +1,458 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.pageContainer {
+  @include page-container;
+  @include page-content;
+  width: 100%;
+  max-width: 80rem;
+  min-width: 0;
+}
+
+.spacer {
+  height: $spacing-8;
+}
+
+.headerGroup {
+  @include flex-column;
+  gap: $spacing-8;
+  width: 100%;
+  min-width: 0;
+}
+
+.header {
+  @include flex-column;
+  gap: $spacing-6;
+  position: relative;
+  z-index: 10;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  color: $muted-foreground;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    color: hsl(var(--primary));
+    transform: translateX(-4px);
+  }
+}
+
+.backIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+
+  @include respond-to("md") {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.titleWrapper {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+}
+
+.iconBox {
+  position: relative;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: $radius-lg;
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.15), transparent);
+  border: 1px solid hsl(var(--primary) / 0.2);
+  @include flex-center;
+  transition: all $transition-fast;
+
+  &:hover {
+    box-shadow: 0 0 16px hsl(var(--primary) / 0.2);
+    border-color: hsl(var(--primary) / 0.4);
+  }
+}
+
+.mainIcon {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: hsl(var(--primary));
+}
+
+.sparkleIcon {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  width: 1rem;
+  height: 1rem;
+  color: hsl(var(--accent));
+}
+
+.title {
+  font-size: clamp($font-size-2xl, 6vw, $font-size-3xl);
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.subtitle {
+  color: $text-secondary;
+  font-size: $font-size-sm;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  width: 100%;
+
+  @include respond-to("md") {
+    flex-direction: row;
+    width: auto;
+  }
+}
+
+.btnNew {
+  background: transparent;
+  border: 1px solid hsl(var(--primary) / 0.45);
+  color: hsl(var(--primary));
+  flex: 1;
+  transition: all $transition-fast;
+
+  @include respond-to("md") {
+    flex: none;
+  }
+
+  &:hover {
+    background: hsl(var(--primary) / 0.08);
+    border-color: hsl(var(--primary));
+    transform: translateY(-1px);
+  }
+}
+
+.plusIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.btnTextMobile {
+  display: inline;
+  @include respond-to("md") {
+    display: none;
+  }
+}
+
+.btnTextDesktop {
+  display: none;
+  @include respond-to("md") {
+    display: inline;
+  }
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-6;
+  width: 100%;
+  min-width: 0;
+}
+
+.calendarCard {
+  @include card;
+  overflow: hidden;
+  width: 100%;
+  min-width: 0;
+}
+
+.nextEventCard {
+  @include card;
+  background: linear-gradient(
+    to right,
+    hsl(var(--card)),
+    hsl(var(--card) / 0.4)
+  );
+  border-left: 4px solid hsl(var(--success));
+  transition: all $transition-base;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px hsl(var(--success) / 0.15);
+  }
+}
+
+.cardHeader {
+  padding: $spacing-4 $spacing-6;
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardIndicatorWrapper {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+}
+
+.indicator {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: $radius-full;
+}
+
+.indicatorSuccess {
+  background: hsl(var(--success));
+  box-shadow: 0 0 10px hsl(var(--success));
+}
+.indicatorPrimary {
+  background: hsl(var(--primary));
+  box-shadow: 0 0 10px hsl(var(--primary));
+}
+.indicatorSecondary {
+  background: hsl(var(--accent));
+  box-shadow: 0 0 10px hsl(var(--accent));
+}
+
+.cardTitle {
+  font-size: $font-size-lg;
+  font-family: $font-family-sans;
+  font-weight: 600;
+}
+
+.cardBody {
+  padding: $spacing-4;
+  width: 100%;
+  min-width: 0;
+
+  @include respond-to("md") {
+    padding: $spacing-6;
+  }
+}
+
+.nextEventContent {
+  @include flex-column;
+  gap: $spacing-2;
+}
+
+.nextEventTitle {
+  font-size: $font-size-xl;
+  color: $foreground;
+}
+
+.nextEventTime {
+  font-size: $font-size-sm;
+  color: hsl(var(--primary));
+  font-weight: 600;
+}
+
+.nextEventDuration {
+  font-size: $font-size-sm;
+  color: $text-secondary;
+}
+
+.viewEventBtn {
+  margin-top: $spacing-4;
+  align-self: flex-start;
+  border: 1px solid hsl(var(--primary) / 0.35);
+  background: transparent;
+  color: hsl(var(--primary));
+  transition: all $transition-fast;
+
+  &:hover {
+    background: hsl(var(--primary) / 0.08);
+    border-color: hsl(var(--primary));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px hsl(var(--primary) / 0.15);
+  }
+}
+
+.emptyEventState {
+  color: $text-muted;
+  font-size: $font-size-sm;
+  font-style: italic;
+}
+
+.fcWrapper {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  --fc-border-color: hsl(var(--border) / 0.4);
+  --fc-button-text-color: hsl(var(--primary));
+  --fc-button-bg-color: transparent;
+  --fc-button-border-color: hsl(var(--primary) / 0.45);
+  --fc-button-hover-bg-color: hsl(var(--primary) / 0.08);
+  --fc-button-hover-border-color: hsl(var(--primary));
+  --fc-button-active-bg-color: hsl(var(--primary) / 0.12);
+  --fc-button-active-border-color: hsl(var(--primary));
+  --fc-event-bg-color: hsl(var(--primary) / 0.15);
+  --fc-event-border-color: hsl(var(--primary) / 0.3);
+  --fc-event-text-color: hsl(var(--primary));
+  --fc-today-bg-color: hsl(var(--accent) / 0.1);
+  --fc-page-bg-color: transparent;
+  --fc-neutral-bg-color: transparent;
+
+  :global(.fc) {
+    font-family: inherit;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  :global(.fc-view-harness),
+  :global(.fc-view-harness-active),
+  :global(.fc-scrollgrid),
+  :global(.fc-scrollgrid table),
+  :global(.fc-scroller-harness),
+  :global(.fc-scroller) {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  :global(.fc-toolbar) {
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  :global(.fc-toolbar-chunk) {
+    min-width: 0;
+  }
+
+  :global(.fc-toolbar-title) {
+    overflow-wrap: anywhere;
+    text-align: center;
+  }
+
+  :global(.fc-event) {
+    max-width: 100%;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-size: 0.75rem;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  :global(.fc-event-title) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @include respond-down("sm") {
+    :global(.fc-daygrid-event-harness) {
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    :global(.fc-daygrid-event-harness .fc-daygrid-event) {
+      display: block;
+      max-width: 100%;
+      overflow: hidden;
+      padding: 0 2px;
+      border: 0;
+      background: transparent !important;
+      white-space: nowrap;
+    }
+
+    :global(.fc-daygrid-event-dot),
+    :global(.fc-daygrid-event .fc-event-time) {
+      display: none;
+    }
+
+    :global(.fc-daygrid-event .fc-event-title) {
+      display: block;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    :global(.fc-daygrid-event .fc-event-main) {
+      color: hsl(var(--primary));
+    }
+  }
+
+  :global(.fc-event):hover {
+    transform: scale(1.02);
+    box-shadow: 0 2px 8px hsl(var(--primary) / 0.3);
+    z-index: 5;
+  }
+
+  :global(.fc-timegrid-slot-label-cushion) {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.75rem;
+  }
+
+  :global(.fc-col-header-cell-cushion) {
+    color: var(--foreground);
+    padding: 0.5rem;
+  }
+
+  :global(.fc-toolbar) {
+    gap: 0.5rem;
+  }
+
+  :global(.fc-button) {
+    min-height: 2.875rem;
+    border-radius: $radius;
+    font-family: inherit;
+  }
+
+  @include respond-down("sm") {
+    :global(.fc-toolbar) {
+      justify-content: flex-start;
+      gap: $spacing-2;
+    }
+
+    :global(.fc-toolbar-chunk:nth-child(2)) {
+      flex: 1;
+      text-align: left;
+    }
+
+    :global(.fc-toolbar-title) {
+      font-size: $font-size-base;
+      text-align: left;
+    }
+
+    :global(.fc-button) {
+      padding: $spacing-1 $spacing-2;
+      font-size: $font-size-xs;
+    }
+
+    :global(.fc-toolbar-chunk .fc-button-group) {
+      gap: 2px;
+    }
+  }
+}
+
+.skeletonContainer {
+  @include flex-column;
+  gap: $spacing-4;
+}
+
+.skeletonTitle {
+  width: 150px;
+  height: 24px;
+  background: hsl(var(--muted));
+  border-radius: $radius;
+}
+
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.skeletonCell {
+  height: 80px;
+  background: hsl(var(--muted) / 0.3);
+  border-radius: $radius-sm;
+}
