@@ -1,0 +1,42 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.content {
+  @include flex-center;
+  gap: $spacing-2;
+}
+
+.icon {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.iconActive {
+  width: 1.125rem;
+  height: 1.125rem;
+  color: $success;
+}
+
+.text {
+  display: none;
+
+  @include respond-to("md") {
+    display: inline;
+    font-size: $font-size-sm;
+    font-weight: 600;
+  }
+}
+
+.default {
+  @include focus-ring;
+}
+
+.granted {
+  color: $success !important;
+  border-color: hsl(var(--success) / 0.3) !important;
+  background-color: hsl(var(--success) / 0.05) !important;
+
+  &:hover {
+    background-color: hsl(var(--success) / 0.15) !important;
+  }
+}
