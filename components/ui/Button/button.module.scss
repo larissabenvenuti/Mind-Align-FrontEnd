@@ -1,0 +1,70 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.button {
+  @include button-base;
+}
+
+.variant-default {
+  background-color: transparent;
+  border-color: hsl(var(--primary) / 0.45);
+  color: $primary;
+
+  &:hover:not(:disabled) {
+    background-color: hsl(var(--primary) / 0.08);
+    border-color: $primary;
+  }
+}
+
+.variant-outline {
+  background-color: transparent;
+  border: 1px solid hsl(var(--primary) / 0.45);
+  color: $primary;
+
+  &:hover:not(:disabled) {
+    background-color: hsl(var(--primary) / 0.08);
+    border-color: $primary;
+  }
+}
+
+.variant-ghost {
+  background-color: transparent;
+  border-color: hsl(var(--primary) / 0.35);
+  color: $primary;
+
+  &:hover:not(:disabled) {
+    background-color: hsl(var(--primary) / 0.08);
+  }
+}
+
+.variant-destructive {
+  background-color: transparent;
+  border-color: hsl(var(--destructive) / 0.5);
+  color: $destructive;
+
+  &:hover:not(:disabled) {
+    background-color: hsl(var(--destructive) / 0.08);
+    border-color: $destructive;
+  }
+}
+
+.size-sm {
+  height: 2.875rem;
+  padding: 0 $spacing-3;
+  font-size: $font-size-xs;
+  border-radius: $radius-sm;
+}
+
+.size-md {
+  height: 2.875rem;
+  padding: 0 $spacing-4;
+  font-size: $font-size-sm;
+  border-radius: $radius;
+}
+
+.size-lg {
+  height: 2.875rem;
+  padding: 0 $spacing-6;
+  font-size: $font-size-base;
+  border-radius: $radius;
+}

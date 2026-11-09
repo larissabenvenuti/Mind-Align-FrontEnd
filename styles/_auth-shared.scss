@@ -1,0 +1,109 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+@mixin auth-form {
+  @include flex-column;
+  gap: $spacing-5;
+}
+@mixin auth-field {
+  @include flex-column;
+  gap: $spacing-3;
+}
+
+@mixin auth-label {
+  font-size: $font-size-sm;
+  font-weight: 600;
+  color: $foreground;
+}
+@mixin auth-input {
+  @include input-base;
+}
+
+@mixin auth-password-toggle {
+  position: absolute;
+  right: $spacing-3;
+  top: 50%;
+  transform: translateY(-50%);
+  @include flex-center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  cursor: pointer;
+  border-radius: $radius-sm;
+  color: $muted-foreground;
+  background: transparent;
+  transition:
+    background $transition-fast,
+    color $transition-fast;
+  &:hover {
+    color: $foreground;
+  }
+  @include focus-ring;
+}
+
+@mixin auth-helper-text {
+  font-size: $font-size-xs;
+  color: $muted-foreground;
+}
+@mixin auth-error-text {
+  font-size: $font-size-xs;
+  color: $destructive;
+}
+
+@mixin auth-submit-button {
+  @include button-base;
+  height: 2.875rem;
+  padding: 0 $spacing-6;
+  color: $primary;
+  background: transparent;
+  border-color: hsl(var(--primary) / 0.45);
+  &:hover {
+    background: hsl(var(--primary) / 0.08);
+    border-color: $primary;
+  }
+}
+@mixin auth-secondary-action {
+  @include button-base;
+  height: 2.875rem;
+  padding: 0 $spacing-6;
+  color: $primary;
+  background: transparent;
+  border: 1px solid hsl(var(--primary) / 0.45);
+  &:hover {
+    background: hsl(var(--primary) / 0.08);
+    border-color: $primary;
+  }
+}
+
+@mixin auth-form-header {
+  @include flex-column;
+  gap: $spacing-2;
+}
+@mixin auth-form-title {
+  font-family: $font-family-heading;
+  font-size: $font-size-2xl;
+  color: $foreground;
+  letter-spacing: -0.02em;
+}
+@mixin auth-form-subtitle {
+  font-size: $font-size-sm;
+  color: $muted-foreground;
+  line-height: 1.6;
+}
+@mixin auth-footer {
+  text-align: center;
+  font-size: $font-size-sm;
+  color: $muted-foreground;
+}
+@mixin auth-footer-link {
+  color: $primary;
+  font-weight: 600;
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: color $transition-fast;
+  &:hover {
+    filter: brightness(1.1);
+    text-decoration: underline;
+  }
+}
