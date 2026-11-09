@@ -9,7 +9,7 @@ export const API_BASE_URL =
     ? configuredApiUrl || "http://localhost:3333"
     : configuredApiUrl && !configuredApiUrlIsLocal
       ? configuredApiUrl
-      : "https://mindalign-backend.onrender.com";
+      : "https://mind-align-backend.onrender.com";
 
 export interface ApiError {
   error: string;

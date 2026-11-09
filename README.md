@@ -5,7 +5,7 @@ Mind Align - Planner Digital (front-end)
 
 Set `NEXT_PUBLIC_API_URL` to the backend base URL when deploying the frontend.
 Local development defaults to `http://localhost:3333`; production defaults to
-`https://mindalign-backend.onrender.com`.
+`https://mind-align-backend.onrender.com`.
 Production ignores a localhost API URL so a local-only setting cannot break the
 deployed app.
 
