@@ -1,0 +1,574 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.pageContainer {
+  @include page-container;
+
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+  overflow-x: clip;
+  overflow-y: hidden;
+
+  background:
+    radial-gradient(
+      circle at 8% 20%,
+      hsl(var(--primary) / 0.06),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 92% 75%,
+      hsl(var(--accent) / 0.05),
+      transparent 28%
+    );
+}
+
+.spacer {
+  height: $spacing-6;
+}
+
+.layoutWrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+
+.openSidebarBtn {
+  @include button-base;
+
+  position: fixed;
+  top: 50%;
+  left: 0;
+  z-index: $z-sticky;
+
+  width: 2.25rem;
+  height: 2.875rem;
+  min-height: 2.875rem;
+  padding: 0;
+
+  border: 1px solid hsl(var(--border) / 0.45);
+  border-left: none;
+  border-radius: 0 $radius-lg $radius-lg 0;
+
+  background: transparent;
+  backdrop-filter: blur(14px);
+
+  color: $text-secondary;
+
+  box-shadow: $shadow-soft;
+
+  transform: translateY(-50%);
+
+  transition:
+    background $transition-fast,
+    border-color $transition-fast,
+    color $transition-fast,
+    transform $transition-fast;
+
+  &:hover {
+    background: hsl(var(--primary) / 0.08);
+
+    border-color: hsl(var(--primary));
+    color: $primary;
+
+    transform: translate(2px, -50%);
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    box-shadow:
+      0 0 0 3px hsl(var(--primary) / 0.15),
+      $shadow-soft;
+  }
+}
+
+.closeSidebarBtn {
+  @include button-base;
+
+  position: absolute;
+  top: $spacing-4;
+  right: $spacing-4;
+
+  width: 2.875rem;
+  height: 2.875rem;
+  min-height: 2.875rem;
+  padding: 0;
+
+  border: 1px solid hsl(var(--border) / 0.5);
+  border-radius: $radius-md;
+
+  background: transparent;
+  color: $primary;
+
+  &:hover {
+    background: hsl(var(--primary) / 0.1);
+    color: $primary;
+    border-color: hsl(var(--primary) / 0.25);
+  }
+}
+
+.iconSm {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.sidebar {
+  @include glassmorphism-strong;
+
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: $z-modal;
+
+  width: 18.5rem;
+  max-width: 88vw;
+
+  padding: $spacing-6 $spacing-5;
+
+  border-radius: 0 $radius-xl $radius-xl 0;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  @include custom-scrollbar;
+}
+
+.sidebarOpen {
+  pointer-events: auto;
+}
+
+.sidebarClosed {
+  pointer-events: none;
+}
+
+.sidebarContent {
+  @include flex-column;
+
+  gap: $spacing-4;
+  margin-top: $spacing-8;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: $z-fixed;
+
+  background: hsl(var(--background) / 0.68);
+  backdrop-filter: blur(5px);
+}
+
+.mainContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.mainContentShifted {
+  min-width: 0;
+}
+
+.contentContainer {
+  @include page-content;
+  @include flex-column;
+
+  gap: $spacing-6;
+
+  max-width: 76rem;
+  margin: 0 auto;
+
+  position: relative;
+
+  @include respond-to("sm") {
+    gap: $spacing-8;
+  }
+}
+
+.header {
+  @include flex-column;
+
+  gap: $spacing-3;
+
+  position: relative;
+
+  padding: $spacing-2 0;
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+}
+
+.title {
+  margin: 0;
+
+  color: $foreground;
+
+  font-family: $font-family-heading;
+  font-size: $font-size-2xl;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+
+  @include respond-to("sm") {
+    font-size: $font-size-3xl;
+  }
+}
+
+.waveEmoji {
+  display: inline-block;
+
+  font-size: $font-size-xl;
+
+  transform-origin: 70% 70%;
+
+  filter: drop-shadow(
+    0 5px 12px hsl(var(--primary) / 0.12)
+  );
+
+  @include respond-to("sm") {
+    font-size: $font-size-2xl;
+  }
+}
+
+.subtitle {
+  max-width: 650px;
+  margin: 0;
+
+  color: $text-secondary;
+
+  font-size: $font-size-sm;
+  line-height: 1.6;
+
+  @include respond-to("sm") {
+    font-size: $font-size-base;
+  }
+}
+
+.shortcutsGrid {
+  display: grid;
+
+  grid-template-columns: minmax(0, 1fr);
+
+  gap: $spacing-4;
+  min-width: 0;
+
+  @include respond-to("sm") {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-to("lg") {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: minmax(12rem, auto);
+  }
+}
+
+.shortcutLink {
+  display: block;
+
+  min-width: 0;
+
+  color: inherit;
+  text-decoration: none;
+}
+
+.calendarLink {
+  @include respond-to("lg") {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+}
+
+.shortcutCard {
+  @include glassmorphism-strong;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+  min-height: 12rem;
+  height: 100%;
+
+  overflow: hidden;
+
+  padding: $spacing-5;
+
+  gap: $spacing-2;
+
+  border: 1px solid hsl(var(--border) / 0.42);
+  border-radius: $radius-xl;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 18px 45px rgb(0 0 0 / 0.07),
+    0 0 30px hsl(var(--primary) / 0.025);
+
+  transition:
+    transform $transition-base,
+    border-color $transition-base,
+    box-shadow $transition-base,
+    background $transition-base;
+
+  &::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+      radial-gradient(
+        circle at 90% 5%,
+        hsl(var(--primary) / 0.09),
+        transparent 35%
+      ),
+      linear-gradient(
+        135deg,
+        hsl(var(--card) / 0.2),
+        transparent
+      );
+
+    opacity: 0.9;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+
+    border-color: hsl(var(--primary) / 0.3);
+
+    background: hsl(var(--card) / 0.82);
+
+    box-shadow:
+      0 25px 60px rgb(0 0 0 / 0.11),
+      0 0 35px hsl(var(--primary) / 0.07);
+  }
+
+  &:focus-within {
+    border-color: hsl(var(--primary) / 0.4);
+
+    box-shadow:
+      0 0 0 3px hsl(var(--primary) / 0.08),
+      0 20px 50px rgb(0 0 0 / 0.08);
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  @include respond-to("lg") {
+    min-height: 0;
+  }
+}
+
+.cardBgIcon {
+  position: absolute;
+
+  top: -1.3rem;
+  right: -1.3rem;
+
+  pointer-events: none;
+
+  color: $primary;
+
+  opacity: 0.055;
+
+  transition:
+    transform $transition-base,
+    opacity $transition-base;
+
+  .shortcutCard:hover & {
+    opacity: 0.1;
+
+    transform: rotate(-5deg) scale(1.06);
+  }
+}
+
+.iconHuge {
+  width: 6rem;
+  height: 6rem;
+}
+
+.cardIconBox {
+  @include flex-center;
+
+  position: relative;
+
+  width: 2.75rem;
+  height: 2.75rem;
+
+  margin-bottom: $spacing-2;
+
+  border: 1px solid hsl(var(--module-accent, var(--primary)) / 0.2);
+  border-radius: $radius-lg;
+
+  background: hsl(var(--module-accent, var(--primary)) / 0.1);
+
+  color: hsl(var(--module-accent, var(--primary)));
+
+  box-shadow:
+    inset 0 1px 0 hsl(var(--foreground) / 0.04);
+}
+
+.iconMd {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.cardTitle {
+  position: relative;
+
+  margin: 0;
+
+  color: $foreground;
+
+  font-size: $font-size-base;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+}
+
+.cardDesc {
+  position: relative;
+
+  max-width: 220px;
+
+  margin: 0;
+
+  color: $text-secondary;
+
+  font-size: $font-size-sm;
+  line-height: 1.45;
+}
+
+.cardAction {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 0.2rem;
+
+  margin-top: auto;
+  padding-top: $spacing-3;
+
+  color: $primary;
+
+  font-size: $font-size-xs;
+  font-weight: 700;
+
+  opacity: 0.7;
+
+  transition:
+    opacity $transition-fast,
+    gap $transition-fast;
+
+  svg {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+
+  .shortcutCard:hover & {
+    gap: $spacing-2;
+    opacity: 1;
+  }
+}
+
+.cardCalendar {
+  --module-accent: var(--primary);
+
+  &::before {
+    background:
+      radial-gradient(
+        circle at 90% 5%,
+        hsl(var(--primary) / 0.12),
+        transparent 35%
+      ),
+      linear-gradient(
+        135deg,
+        hsl(var(--card) / 0.2),
+        transparent
+      );
+  }
+
+  &:hover {
+    border-color: hsl(var(--primary) / 0.38);
+  }
+
+}
+
+.cardNotes {
+  --module-accent: var(--primary);
+
+  &:hover {
+    border-color: hsl(var(--module-accent) / 0.38);
+  }
+}
+
+.cardHabits {
+  --module-accent: var(--primary);
+
+  &:hover {
+    border-color: hsl(var(--module-accent) / 0.38);
+  }
+}
+
+.cardTasks {
+  --module-accent: var(--primary);
+
+  &:hover {
+    border-color: hsl(var(--module-accent) / 0.38);
+  }
+}
+
+.activitySectionWrapper {
+  min-width: 0;
+
+  position: relative;
+}
+
+@include respond-down("sm") {
+  .spacer {
+    height: $spacing-4;
+  }
+
+  .contentContainer {
+    gap: $spacing-6;
+  }
+
+  .shortcutCard {
+    min-height: 10.5rem;
+    padding: $spacing-4;
+  }
+
+  .cardIconBox {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .cardDesc {
+    font-size: $font-size-xs;
+  }
+
+  .openSidebarBtn {
+    width: 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waveEmoji {
+    animation: none;
+  }
+
+  .shortcutCard,
+  .cardBgIcon,
+  .cardAction {
+    transition: none;
+  }
+}

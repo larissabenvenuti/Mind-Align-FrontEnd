@@ -1,0 +1,499 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.sectionContainer {
+  @include glassmorphism-strong;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: $spacing-5;
+
+  padding: $spacing-5;
+
+  border: 1px solid hsl(var(--border) / 0.42);
+  border-radius: $radius-2xl;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 25px 65px rgb(0 0 0 / 0.08),
+    0 0 45px hsl(var(--primary) / 0.035);
+
+  &::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+      radial-gradient(
+        circle at 95% 0%,
+        hsl(var(--primary) / 0.09),
+        transparent 28%
+      ),
+      linear-gradient(135deg, hsl(var(--card) / 0.18), transparent);
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  @include respond-to("sm") {
+    padding: $spacing-6;
+  }
+
+  @include respond-to("lg") {
+    padding: $spacing-8;
+  }
+}
+
+.header {
+  @include flex-between;
+
+  gap: $spacing-4;
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+
+  gap: $spacing-3;
+
+  min-width: 0;
+}
+
+.titleIconBox {
+  @include flex-center;
+
+  flex-shrink: 0;
+
+  width: 2.5rem;
+  height: 2.5rem;
+
+  border: 1px solid hsl(var(--primary) / 0.2);
+  border-radius: $radius-lg;
+
+  background: hsl(var(--primary) / 0.09);
+
+  color: $primary;
+
+  box-shadow: inset 0 1px 0 hsl(var(--foreground) / 0.04);
+}
+
+.titleIcon {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.title {
+  margin: 0;
+
+  color: $foreground;
+
+  font-size: $font-size-base;
+  font-weight: 750;
+
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  margin: 2px 0 0;
+
+  color: $muted-foreground;
+
+  font-size: $font-size-xs;
+  line-height: 1.4;
+}
+
+.activityCount {
+  @include flex-center;
+
+  flex-shrink: 0;
+
+  min-width: 1.75rem;
+  height: 1.75rem;
+
+  padding: 0 $spacing-2;
+
+  border: 1px solid hsl(var(--primary) / 0.15);
+  border-radius: $radius-full;
+
+  background: hsl(var(--primary) / 0.1);
+
+  color: $primary;
+
+  font-size: $font-size-xs;
+  font-weight: 800;
+}
+
+.listWrapper {
+  position: relative;
+
+  min-height: 12rem;
+}
+
+.stateContainer {
+  @include flex-column;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 12rem;
+
+  gap: $spacing-4;
+
+  padding: $spacing-6;
+
+  color: $muted-foreground;
+
+  text-align: center;
+}
+
+.stateTextGroup {
+  @include flex-column;
+
+  align-items: center;
+
+  gap: $spacing-1;
+}
+
+.stateTitle {
+  margin: 0;
+
+  color: $foreground;
+
+  font-size: $font-size-sm;
+  font-weight: 700;
+}
+
+.stateDescription {
+  max-width: 320px;
+
+  margin: 0;
+
+  color: $muted-foreground;
+
+  font-size: $font-size-xs;
+  line-height: 1.5;
+}
+
+.spinner {
+  width: 2rem;
+  height: 2rem;
+
+  border: 2px solid hsl(var(--muted-foreground) / 0.15);
+  border-top-color: $primary;
+
+  border-radius: $radius-full;
+
+  animation: spin 0.8s linear infinite;
+}
+
+.errorIcon {
+  width: 2rem;
+  height: 2rem;
+
+  color: $destructive;
+
+  opacity: 0.8;
+}
+
+.retryButton {
+  @include button-base;
+  padding: 0 $spacing-3;
+  border-color: hsl(var(--primary) / 0.45);
+  border-radius: $radius-md;
+  background: transparent;
+  color: $primary;
+
+  font-size: $font-size-xs;
+
+  svg {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+
+  &:hover {
+    border-color: hsl(var(--primary) / 0.3);
+
+    background: hsl(var(--primary) / 0.08);
+
+    color: $primary;
+  }
+}
+
+.emptyIconWrapper {
+  @include flex-center;
+
+  width: 3.25rem;
+  height: 3.25rem;
+
+  border-radius: $radius-full;
+
+  background: hsl(var(--muted) / 0.4);
+
+  color: $muted-foreground;
+}
+
+.emptyIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+
+  opacity: 0.65;
+}
+
+.list {
+  @include flex-column;
+
+  gap: $spacing-2;
+
+  padding: 0;
+  margin: 0;
+
+  list-style: none;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+
+  gap: $spacing-3;
+
+  min-width: 0;
+
+  padding: $spacing-3;
+
+  border: 1px solid hsl(var(--border) / 0.4);
+  border-radius: $radius-lg;
+
+  background: hsl(var(--muted) / 0.3);
+
+  cursor: pointer;
+
+  box-shadow: inset 0 1px 0 hsl(var(--foreground) / 0.025);
+
+  transition:
+    transform $transition-fast,
+    background $transition-fast,
+    border-color $transition-fast,
+    box-shadow $transition-fast;
+
+  &:hover {
+    transform: translateX(3px) translateY(-1px);
+
+    border-color: hsl(var(--primary) / 0.28);
+
+    background: hsl(var(--card) / 0.72);
+
+    box-shadow:
+      0 8px 25px rgb(0 0 0 / 0.05),
+      inset 0 1px 0 hsl(var(--foreground) / 0.04);
+
+    .actionArrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    border-color: hsl(var(--primary) / 0.5);
+
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.12);
+  }
+}
+
+.itemIconWrapper {
+  flex-shrink: 0;
+}
+
+.iconContainer {
+  @include flex-center;
+
+  width: 2.4rem;
+  height: 2.4rem;
+
+  border-radius: $radius-md;
+}
+
+.iconBase {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.iconEvent {
+  background: hsl(var(--primary) / 0.12);
+  color: $primary;
+}
+
+.iconNote {
+  background: hsl(var(--primary) / 0.12);
+  color: $primary;
+}
+
+.iconHabit {
+  background: hsl(var(--primary) / 0.12);
+  color: $primary;
+}
+
+.iconTask {
+  background: hsl(var(--primary) / 0.12);
+  color: $primary;
+}
+
+.iconDefault {
+  background: hsl(var(--primary) / 0.08);
+  color: $primary;
+}
+
+.itemContent {
+  @include flex-column;
+
+  flex: 1;
+
+  min-width: 0;
+
+  gap: 0.25rem;
+}
+
+.itemTextGroup {
+  display: flex;
+  align-items: center;
+
+  gap: $spacing-2;
+
+  min-width: 0;
+}
+
+.itemTypeLabel {
+  flex-shrink: 0;
+
+  color: $foreground;
+
+  font-size: 0.65rem;
+  font-weight: 800;
+
+  letter-spacing: 0.045em;
+
+  text-transform: uppercase;
+}
+
+.tiptapPreview {
+  min-width: 0;
+
+  overflow: hidden;
+
+  color: $muted-foreground;
+
+  font-size: $font-size-sm;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  * {
+    display: inline !important;
+
+    margin: 0 !important;
+  }
+}
+
+.itemTime {
+  display: flex;
+  align-items: center;
+
+  gap: $spacing-2;
+
+  color: $muted-foreground;
+
+  font-size: $font-size-xs;
+
+  opacity: 0.8;
+}
+
+.timeDot {
+  width: 4px;
+  height: 4px;
+
+  flex-shrink: 0;
+
+  border-radius: $radius-full;
+
+  background: hsl(var(--border));
+}
+
+.actionArrow {
+  @include flex-center;
+
+  flex-shrink: 0;
+
+  color: $primary;
+
+  opacity: 0.35;
+
+  transform: translateX(-4px);
+
+  transition:
+    opacity $transition-fast,
+    transform $transition-fast;
+}
+
+.arrowIcon {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 639px) {
+  .sectionContainer {
+    padding: $spacing-4;
+  }
+
+  .subtitle {
+    display: none;
+  }
+
+  .listItem {
+    padding: $spacing-3;
+  }
+
+  .itemTextGroup {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 0.1rem;
+  }
+
+  .tiptapPreview {
+    max-width: 100%;
+  }
+
+  .actionArrow {
+    opacity: 0.5;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 1.5s;
+  }
+
+  .listItem,
+  .actionArrow {
+    transition: none;
+  }
+}
