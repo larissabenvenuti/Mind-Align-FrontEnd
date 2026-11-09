@@ -1,0 +1,265 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.pageContainer {
+  @include page-container;
+}
+
+.spacer {
+  height: $spacing-8;
+}
+
+.content {
+  @include page-content;
+}
+
+.wrapper {
+  max-width: 64rem;
+  margin: 0 auto;
+  @include flex-column;
+  gap: $spacing-8;
+}
+
+.header {
+  @include flex-column;
+  gap: $spacing-6;
+  position: relative;
+  z-index: 10;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  color: $muted-foreground;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $foreground;
+  }
+}
+
+.backIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.titleSection {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+  min-width: 0;
+}
+
+.iconBox {
+  position: relative;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: $radius-lg;
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.15), transparent);
+  border: 1px solid hsl(var(--primary) / 0.2);
+  @include flex-center;
+}
+
+.mainIcon {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: hsl(var(--primary));
+}
+
+.pulseIcon {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  width: 1rem;
+  height: 1rem;
+  color: hsl(var(--accent));
+}
+
+.title {
+  min-width: 0;
+  font-size: clamp($font-size-2xl, 6vw, $font-size-3xl);
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.subtitle {
+  color: $text-secondary;
+  font-size: $font-size-sm;
+}
+
+.mainContent {
+  @include flex-column;
+  gap: $spacing-6;
+}
+
+.editorCard {
+  @include card;
+  padding: $spacing-6;
+  @include flex-column;
+  gap: $spacing-4;
+
+  @include respond-down("sm") {
+    padding: $spacing-4;
+  }
+}
+
+.editorFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: $spacing-3;
+  border-top: 1px solid hsl(var(--border) / 0.4);
+}
+
+.charCount {
+  font-size: $font-size-sm;
+  color: $text-muted;
+}
+
+.saveButton {
+  background: transparent;
+  border: 1px solid hsl(var(--primary) / 0.45);
+  color: hsl(var(--primary));
+
+  &:hover {
+    background: hsl(var(--primary) / 0.08);
+    border-color: hsl(var(--primary));
+  }
+}
+
+.btnIconSm {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.historyCard {
+  @include card;
+  padding: $spacing-6;
+  @include flex-column;
+  gap: $spacing-5;
+}
+
+.historyHeader {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  padding-bottom: $spacing-3;
+  border-bottom: 1px solid hsl(var(--border) / 0.4);
+}
+
+.indicator {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: $radius-full;
+  background: hsl(var(--primary));
+  box-shadow: 0 0 10px hsl(var(--primary));
+}
+
+.historyTitle {
+  font-size: $font-size-lg;
+  font-weight: 600;
+}
+
+.emptyState {
+  @include flex-column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-12 0;
+  gap: $spacing-3;
+  text-align: center;
+}
+
+.emptyIconBox {
+  width: 3rem;
+  height: 3rem;
+  border-radius: $radius-full;
+  background: hsl(var(--muted) / 0.5);
+  @include flex-center;
+  color: $text-muted;
+}
+
+.emptyIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.emptyText {
+  color: $text-muted;
+  font-size: $font-size-sm;
+}
+
+.notesList {
+  @include flex-column;
+  gap: $spacing-4;
+}
+
+.noteItem {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $spacing-4;
+  padding: $spacing-4;
+  background: hsl(var(--background) / 0.4);
+  border: 1px solid hsl(var(--border) / 0.6);
+  border-radius: $radius-lg;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: hsl(var(--primary) / 0.4);
+    box-shadow: $shadow-sm;
+  }
+}
+
+.noteBody {
+  @include flex-column;
+  gap: $spacing-2;
+  flex: 1;
+  overflow: hidden;
+}
+
+.noteTime {
+  font-size: 0.75rem;
+  color: $text-muted;
+  font-weight: 500;
+}
+
+.noteHtml {
+  font-size: $font-size-sm;
+  color: $foreground;
+  word-break: break-word;
+
+  p {
+    margin-bottom: 0.5rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  ul,
+  ol {
+    padding-left: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  h1,
+  h2,
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+}
+
+.deleteBtn {
+  background: transparent;
+  color: $text-muted;
+  padding: $spacing-2;
+  border-radius: $radius;
+
+  &:hover {
+    background: hsl(var(--destructive) / 0.1);
+    color: hsl(var(--destructive));
+  }
+}
