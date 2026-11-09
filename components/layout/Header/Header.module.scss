@@ -1,0 +1,269 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: $z-fixed;
+  background: hsl(var(--card) / 0.97);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid hsl(var(--border) / 0.7);
+  box-shadow: 0 8px 24px hsl(var(--foreground) / 0.07);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+}
+
+.container {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: $spacing-3 $spacing-3;
+  
+  @include respond-to("sm") {
+    padding: $spacing-4 $spacing-6;
+  }
+}
+
+.nav {
+  @include flex-between;
+  gap: $spacing-3;
+}
+
+.headerAuth .nav {
+  justify-content: center;
+}
+
+.headerAuth .actionsSection {
+  display: none;
+}
+
+.logoSection {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  min-width: 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.avatarWrapper {
+  position: relative;
+}
+
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: $radius-full;
+  background: hsl(var(--primary) / 0.15);
+  color: $primary;
+  border: 1px solid hsl(var(--primary) / 0.3);
+  @include flex-center;
+}
+
+.avatarLetter {
+  font-family: $font-family-heading;
+  font-size: $font-size-lg;
+  font-weight: 700;
+}
+
+.pulseDot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: $radius-full;
+  background-color: $success;
+  border: 2px solid hsl(var(--card)); 
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.brandTitle {
+  font-family: $font-family-heading;
+  font-size: clamp($font-size-base, 4vw, $font-size-xl);
+  color: $foreground;
+  margin: 0;
+  line-height: 1;
+}
+
+.actionsSection {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  flex-shrink: 0;
+}
+
+.notificationBtn {
+  width: 2.875rem;
+  height: 2.875rem;
+  min-height: 2.875rem;
+  padding: 0;
+  background: transparent;
+  border: 1px solid hsl(var(--primary) / 0.4);
+  border-radius: $radius-full;
+  color: $primary;
+  transition: all $transition-fast;
+  @include flex-center;
+  cursor: pointer;
+
+  &:hover {
+    background: hsl(var(--primary) / 0.08);
+    border-color: hsl(var(--primary));
+  }
+
+  &.btnSubscribed {
+    color: $primary;
+    background: hsl(var(--primary) / 0.08);
+    border-color: hsl(var(--primary) / 0.5);
+  }
+}
+
+.iconRow {
+  @include flex-center;
+}
+
+.iconSmall {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.userMenuWrapper {
+  position: relative;
+  z-index: 100;
+}
+
+.userButton {
+  width: 2.875rem;
+  height: 2.875rem;
+  min-height: 2.875rem;
+  padding: 0.15rem;
+  background: transparent;
+  border: 1px solid hsl(var(--primary) / 0.45);
+  color: $primary;
+  border-radius: $radius-full;
+  cursor: pointer;
+  @include focus-ring;
+
+  &:hover {
+    background: hsl(var(--primary) / 0.08);
+    border-color: hsl(var(--primary));
+  }
+}
+
+.userAvatar {
+  width: 100%;
+  height: 100%;
+  border-radius: $radius-full;
+  background: hsl(var(--muted));
+  color: $foreground;
+  font-family: $font-family-heading;
+  font-size: $font-size-base;
+  @include flex-center;
+  border: 1px solid hsl(var(--primary) / 0.3);
+  transition: border-color $transition-fast;
+  overflow: hidden;
+  box-shadow: 0 0 0 2px hsl(var(--card)), 0 0 0 3px hsl(var(--primary) / 0.35);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .userButton:hover & {
+    border-color: $primary;
+  }
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: transparent;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  right: 0;
+  z-index: 1000;
+  width: 220px;
+  padding: $spacing-2;
+  border: 1px solid hsl(var(--border) / 0.65);
+  border-radius: $radius-lg;
+  background: hsl(var(--card) / 0.96);
+  color: $foreground;
+  box-shadow: $shadow-md;
+  backdrop-filter: blur(18px);
+}
+
+.dropdownHeader {
+  padding: $spacing-3;
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+  margin-bottom: $spacing-2;
+}
+
+.dropdownName {
+  font-size: $font-size-sm;
+  font-weight: 600;
+  color: $foreground;
+  margin: 0;
+  @include truncate;
+}
+
+.dropdownEmail {
+  font-size: $font-size-xs;
+  color: $text-secondary;
+  margin: 0;
+  margin-top: $spacing-1;
+  @include truncate;
+}
+
+.dropdownBody {
+  @include flex-column;
+  gap: $spacing-1;
+}
+
+.dropdownItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: $spacing-3;
+  padding: $spacing-2 $spacing-3;
+  background: transparent;
+  border: none;
+  color: $foreground;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: hsl(var(--muted) / 0.6);
+  }
+}
+
+.textDestructive {
+  color: $destructive;
+  
+  &:hover {
+    background: hsl(var(--destructive) / 0.1);
+    color: $destructive;
+  }
+}
+
+.signInButton {
+  @include button-base;
+  text-decoration: none;
+}

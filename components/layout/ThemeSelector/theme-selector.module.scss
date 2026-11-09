@@ -1,0 +1,168 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.sidebar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
+
+.header {
+  padding: $spacing-2 $spacing-2 $spacing-5;
+  border-bottom: 1px solid hsl(var(--border) / 0.45);
+}
+
+.titleWrapper {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+}
+
+.headerIcon {
+  @include flex-center;
+  flex-shrink: 0;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: $radius-md;
+  background: hsl(var(--primary) / 0.1);
+  color: $primary;
+
+  svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+}
+
+.title {
+  margin: 0;
+  color: $foreground;
+  font-size: $font-size-sm;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 2px 0 0;
+  color: $muted-foreground;
+  font-size: $font-size-xs;
+  line-height: 1.4;
+}
+
+.list {
+  @include flex-column;
+  gap: $spacing-2;
+  padding: $spacing-4 0;
+  overflow-y: auto;
+  @include custom-scrollbar;
+}
+
+.themeButton {
+  @include button-base;
+  width: 100%;
+  min-height: 2.875rem;
+  padding: $spacing-2 $spacing-3;
+  justify-content: space-between;
+  border: 1px solid hsl(var(--border) / 0.6);
+  border-radius: $radius-lg;
+  background: transparent;
+  color: $foreground;
+  text-align: left;
+
+  &:hover:not(.btnActive) {
+    background: hsl(var(--muted) / 0.38);
+    border-color: hsl(var(--border) / 0.45);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: hsl(var(--primary) / 0.5);
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.12);
+  }
+}
+
+.btnActive {
+  background: hsl(var(--primary) / 0.08) !important;
+  border-color: hsl(var(--primary) / 0.28);
+  box-shadow:
+    0 6px 18px hsl(var(--primary) / 0.06),
+    inset 0 0 0 1px hsl(var(--primary) / 0.03);
+}
+
+.btnContent {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  min-width: 0;
+}
+
+.circleIcon {
+  @include flex-center;
+  flex-shrink: 0;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: $radius-full;
+  color: $primary-foreground;
+  box-shadow: $shadow-sm;
+  transition: transform $transition-fast;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .themeButton:hover & {
+    transform: scale(1.05);
+  }
+}
+
+.colorDefault {
+  background: hsl(350 75% 45%);
+}
+
+.colorPurple {
+  background: hsl(265 75% 55%);
+}
+
+.colorBlue {
+  background: hsl(220 85% 55%);
+}
+
+.colorGreen {
+  background: hsl(152 75% 40%);
+}
+
+.colorOrange {
+  background: hsl(24 95% 55%);
+}
+
+.colorPink {
+  background: hsl(330 80% 55%);
+}
+
+.colorDark {
+  background: hsl(224 20% 10%);
+  color: hsl(224 20% 96%);
+  border: 1px solid hsl(224 20% 30%);
+}
+
+.label {
+  min-width: 0;
+  overflow: hidden;
+  color: $foreground;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.checkWrapper {
+  @include flex-center;
+  flex-shrink: 0;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: $radius-full;
+  background: $primary;
+  color: $primary-foreground;
+  box-shadow: 0 0 10px hsl(var(--primary) / 0.3);
+}
