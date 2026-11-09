@@ -1,0 +1,265 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.mainContainer {
+  @include page-container;
+  @include flex-center;
+  padding: $spacing-4;
+  overflow: hidden;
+  background: linear-gradient(180deg, hsl(var(--background) / 0.8), hsl(var(--background) / 0.95));
+}
+
+.gridOverlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(hsl(var(--primary) / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--primary) / 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at center, black 42%, transparent 86%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.authCard {
+  @include glassmorphism-strong;
+  width: 100%;
+  max-width: 1100px;
+  min-height: 720px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  z-index: 10;
+  border-radius: $radius-2xl;
+  padding: 0;
+  overflow: hidden;
+  box-shadow:
+    $shadow-lg,
+    0 0 0 1px hsl(var(--border) / 0.3);
+
+  @include respond-to("lg") {
+    grid-template-columns: minmax(340px, 45%) 1fr;
+  }
+}
+
+.bannerSection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: $spacing-10;
+  padding: $spacing-10 $spacing-8;
+  background: linear-gradient(
+    180deg,
+    hsl(var(--card) / 0.74),
+    hsl(var(--background) / 0.92)
+  );
+  border-right: none;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at top left, hsl(var(--primary) / 0.12), transparent 32%),
+      radial-gradient(circle at bottom right, hsl(var(--accent) / 0.12), transparent 22%);
+    pointer-events: none;
+  }
+}
+
+.bannerNoise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.brandMark {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  position: relative;
+  z-index: 2;
+}
+
+.brandLogo {
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-lg;
+  background: linear-gradient(135deg, $primary, $accent);
+  color: $primary-foreground;
+  @include flex-center;
+  font-weight: 800;
+  font-size: 1rem;
+  box-shadow: $shadow-glow;
+}
+
+.brandName {
+  font-family: $font-family-heading;
+  font-size: 1.3rem;
+  color: $foreground;
+  letter-spacing: -0.03em;
+}
+
+.bannerContent {
+  position: relative;
+  z-index: 2;
+}
+
+.bannerBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-1;
+  padding: $spacing-1 $spacing-4;
+  background-color: hsl(var(--primary) / 0.16);
+  border: 1px solid hsl(var(--primary) / 0.32);
+  color: $primary;
+  font-size: $font-size-xs;
+  font-weight: 700;
+  border-radius: $radius-full;
+  margin-bottom: $spacing-5;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.bannerTitle {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.05;
+  color: $foreground;
+  margin-bottom: $spacing-4;
+}
+
+.bannerTitleAccent {
+  background: linear-gradient(135deg, $primary, $accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bannerSubtitle {
+  font-size: $font-size-base;
+  color: $text-secondary;
+  line-height: 1.75;
+  margin-bottom: $spacing-8;
+  max-width: 92%;
+}
+
+.switchButton {
+  @include button-base;
+  border-radius: $radius-full;
+  padding: 0 $spacing-6;
+  font-size: $font-size-sm;
+  font-weight: 700;
+  color: $primary;
+  background-color: transparent;
+  border: 1px solid hsl(var(--primary) / 0.45);
+  transition: all $transition-base;
+
+  &:hover {
+    background-color: hsl(var(--primary) / 0.08);
+    border-color: $primary;
+  }
+}
+
+.formSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-8;
+  background-color: $background;
+}
+
+.formWrapper {
+  width: 100%;
+  max-width: 420px;
+  padding: $spacing-4;
+}
+
+.formHeader {
+  margin-bottom: $spacing-8;
+  text-align: center;
+}
+
+.formTitle {
+  font-size: $font-size-2xl;
+  font-weight: 700;
+  color: $foreground;
+  margin-bottom: $spacing-2;
+}
+
+.formSubtitle {
+  font-size: $font-size-sm;
+  color: $text-secondary;
+  line-height: 1.5;
+}
+
+.formFooter {
+  margin-top: $spacing-6;
+  text-align: center;
+  font-size: $font-size-sm;
+  color: $text-secondary;
+}
+
+.formFooterLink {
+  background: none;
+  border: none;
+  color: $primary;
+  cursor: pointer;
+  font-weight: 600;
+  transition: color $transition-fast;
+  text-decoration: none;
+  padding: 0;
+
+  &:hover {
+    color: hsl(var(--primary) / 1.2);
+  }
+
+  @include focus-ring;
+}
+
+@include respond-down("sm") {
+  .mainContainer {
+    display: block;
+    min-height: calc(100vh - 4.25rem);
+    padding: $spacing-20 $spacing-5 $spacing-12;
+    overflow: visible;
+    background: hsl(var(--background));
+  }
+
+  .gridOverlay,
+  .bannerSection {
+    display: none;
+  }
+
+  .authCard {
+    display: block;
+    min-height: 0;
+    max-width: 32rem;
+    margin: 0 auto;
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .formSection {
+    display: block;
+    padding: 0;
+    background: transparent;
+  }
+
+  .formWrapper {
+    max-width: none;
+    padding: $spacing-4 $spacing-2;
+  }
+
+  .formHeader {
+    margin-bottom: $spacing-6;
+  }
+}

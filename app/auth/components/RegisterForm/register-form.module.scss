@@ -1,0 +1,211 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.form {
+  @include flex-column;
+  width: 100%;
+  gap: $spacing-5;
+}
+
+.inputGroup {
+  @include flex-column;
+  gap: $spacing-3;
+
+  label {
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: $foreground;
+  }
+
+  input {
+    @include input-base;
+  }
+}
+
+.passwordWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordInput {
+  @include input-base;
+  padding-right: 3rem;
+}
+
+.eyeButton {
+  @include button-base;
+  position: absolute;
+  right: $spacing-3;
+  width: 2.5rem;
+  height: 2.5rem;
+  min-height: 0;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  color: $primary;
+  border-radius: $radius;
+
+  &:hover {
+    background-color: hsl(var(--primary) / 0.08);
+  }
+}
+
+.matchSuccess,
+.matchError {
+  display: block;
+  font-size: 0.85rem;
+  margin-top: $spacing-2;
+}
+
+.matchSuccess {
+  color: $success;
+  font-weight: 600;
+}
+
+.matchError {
+  color: $destructive;
+}
+
+.strengthBar {
+  margin-top: $spacing-3;
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+}
+
+.strengthTrack {
+  flex: 1;
+  height: 6px;
+  background-color: hsl(var(--border) / 0.2);
+  border-radius: $radius-full;
+  overflow: hidden;
+}
+
+.strengthFill {
+  height: 100%;
+  border-radius: $radius-full;
+  transition: width $transition-fast, background $transition-fast;
+  box-shadow: $shadow-sm;
+
+  &[data-strength="weak"] {
+    background-color: $destructive;
+  }
+
+  &[data-strength="medium"] {
+    background-color: hsl(var(--accent) / 0.9);
+  }
+
+  &[data-strength="strong"] {
+    background-color: $success;
+  }
+}
+
+.strengthLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: $text-muted;
+  width: 50px;
+  text-align: right;
+}
+
+.reqBox {
+  background-color: hsl(var(--card) / 0.6);
+  border: 1px solid hsl(var(--border) / 0.5);
+  border-radius: $radius-xl;
+  padding: $spacing-4;
+  margin-top: $spacing-4;
+  overflow: hidden;
+}
+
+.reqTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: $text-secondary;
+  margin-bottom: $spacing-3;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.reqList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.reqBoxMet {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  background-color: hsl(var(--success) / 0.14);
+  border: 1px solid hsl(var(--success) / 0.2);
+  color: $success;
+  padding: $spacing-3;
+  border-radius: $radius-lg;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: $spacing-4;
+}
+
+.submitButton {
+  @include button-base;
+  width: 100%;
+  height: 2.875rem;
+  margin-top: $spacing-4;
+  background: transparent;
+  border-color: hsl(var(--primary) / 0.45);
+  color: $primary;
+  font-weight: 700;
+  transition: all $transition-base;
+
+  &:hover:not(:disabled) {
+    background: hsl(var(--primary) / 0.08);
+    border-color: $primary;
+    transform: translateY(-2px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.loadingDots {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    width: 6px;
+    height: 6px;
+    background-color: currentColor;
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both;
+
+    &:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    &:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+  }
+}
+
+@keyframes bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+
+  40% {
+    transform: scale(1);
+  }
+}
