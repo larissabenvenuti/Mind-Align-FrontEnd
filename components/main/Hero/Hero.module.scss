@@ -1,0 +1,563 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.heroSection {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: $spacing-20 0 $spacing-12;
+  background:
+    radial-gradient(
+      circle at 15% 35%,
+      hsl(var(--primary) / 0.08),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 85% 70%,
+      hsl(var(--accent) / 0.06),
+      transparent 30%
+    );
+}
+
+.glowOrb {
+  @include orb(48vw, 0.12);
+  top: 12%;
+  left: -12%;
+  max-width: 560px;
+  max-height: 560px;
+  filter: blur(90px);
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 $spacing-5;
+
+  @include respond-to("sm") {
+    padding: 0 $spacing-8;
+  }
+
+  @include respond-to("xl") {
+    padding: 0 $spacing-6;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: $spacing-12;
+
+  @include respond-to("lg") {
+    grid-template-columns: minmax(0, 1fr) minmax(420px, 0.82fr);
+    gap: $spacing-10;
+  }
+
+  @include respond-to("xl") {
+    gap: $spacing-16;
+  }
+}
+
+.contentLeft {
+  @include flex-column;
+  align-items: flex-start;
+  max-width: 680px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  min-height: 2rem;
+  padding: $spacing-1 $spacing-3;
+  margin-bottom: $spacing-5;
+  background: hsl(var(--primary) / 0.08);
+  border: 1px solid hsl(var(--primary) / 0.2);
+  border-radius: $radius-full;
+  box-shadow: 0 6px 24px hsl(var(--primary) / 0.08);
+}
+
+.badgeIcon {
+  width: 0.9rem;
+  height: 0.9rem;
+  color: $primary;
+}
+
+.badgeText {
+  font-size: $font-size-xs;
+  font-weight: 700;
+  letter-spacing: 0.045em;
+  color: $primary;
+  text-transform: uppercase;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0 0 $spacing-5;
+  color: $foreground;
+  font-size: clamp(2.15rem, 5vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+
+  @include respond-to("sm") {
+    font-size: clamp(2.5rem, 5vw, 3.8rem);
+  }
+
+  @include respond-to("lg") {
+    font-size: clamp(2.7rem, 4vw, 4rem);
+  }
+}
+
+.gradientText {
+  margin-top: $spacing-1;
+  font-family: $font-family-heading;
+  font-size: 1.15em;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary)),
+    hsl(var(--accent))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  padding: 0.08em 0.04em 0.14em;
+  filter: drop-shadow(0 8px 20px hsl(var(--primary) / 0.12));
+}
+
+.description {
+  max-width: 560px;
+  margin: 0 0 $spacing-8;
+  color: $text-secondary;
+  font-size: $font-size-base;
+  line-height: 1.7;
+
+  @include respond-to("sm") {
+    font-size: $font-size-lg;
+  }
+}
+
+.buttonGroup {
+  display: flex;
+  align-items: center;
+}
+
+.primaryButton {
+  @include button-base;
+  min-height: 2.875rem;
+  padding: 0 $spacing-8;
+  border-radius: $radius-full;
+  color: $primary;
+  background: transparent;
+  border-color: hsl(var(--primary) / 0.45);
+  font-size: $font-size-sm;
+  font-weight: 700;
+  text-decoration: none;
+
+  &:hover {
+    transform: translateY(-2px);
+    background: hsl(var(--primary) / 0.08);
+    border-color: hsl(var(--primary));
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.arrowIcon {
+  width: 1.05rem;
+  height: 1.05rem;
+  transition: transform $transition-fast;
+}
+
+.primaryButton:hover .arrowIcon {
+  transform: translateX(4px);
+}
+
+.contentRight {
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+
+  @include respond-to("lg") {
+    max-width: none;
+  }
+}
+
+.bentoMockup {
+  @include glassmorphism-strong;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+  overflow: hidden;
+  padding: $spacing-5;
+  border-radius: $radius-2xl;
+  box-shadow:
+    0 30px 80px rgb(0 0 0 / 0.12),
+    0 0 50px hsl(var(--primary) / 0.07);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        circle at 90% 5%,
+        hsl(var(--primary) / 0.1),
+        transparent 28%
+      ),
+      linear-gradient(
+        135deg,
+        hsl(var(--card) / 0.2),
+        transparent
+      );
+    pointer-events: none;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  @include respond-to("sm") {
+    padding: $spacing-6;
+  }
+}
+
+.mockHeader {
+  @include flex-between;
+  align-items: flex-start;
+  gap: $spacing-4;
+}
+
+.mockEyebrow {
+  display: block;
+  margin-bottom: 2px;
+  color: $primary;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mockTitle {
+  margin: 0 0 2px;
+  color: $foreground;
+  font-size: $font-size-lg;
+  font-weight: 800;
+}
+
+.mockDate {
+  color: $text-muted;
+  font-size: $font-size-xs;
+  font-weight: 500;
+}
+
+.dots {
+  display: flex;
+  gap: 5px;
+  padding-top: $spacing-1;
+
+  span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: hsl(var(--muted-foreground) / 0.3);
+
+    &:nth-child(1) {
+      background: hsl(var(--primary) / 0.55);
+    }
+
+    &:nth-child(2) {
+      background: hsl(var(--accent) / 0.55);
+    }
+
+    &:nth-child(3) {
+      background: hsl(var(--success) / 0.55);
+    }
+  }
+}
+
+.mockProgress {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: $spacing-3;
+  padding: $spacing-3;
+  border: 1px solid hsl(var(--border) / 0.45);
+  border-radius: $radius-lg;
+  background: hsl(var(--muted) / 0.35);
+}
+
+.progressInfo {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  color: $text-secondary;
+  font-size: $font-size-xs;
+  font-weight: 600;
+}
+
+.progressIcon {
+  width: 1rem;
+  height: 1rem;
+  color: $success;
+}
+
+.progressTrack {
+  min-width: 0;
+  height: 0.35rem;
+  overflow: hidden;
+  border-radius: $radius-full;
+  background: hsl(var(--muted-foreground) / 0.12);
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    hsl(var(--success)),
+    hsl(var(--accent))
+  );
+  box-shadow: 0 0 12px hsl(var(--success) / 0.35);
+}
+
+.progressText {
+  color: $foreground;
+  font-size: $font-size-xs;
+  font-weight: 800;
+}
+
+.mockGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-3;
+
+  @include respond-to("sm") {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.mockCard {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  min-width: 0;
+  padding: $spacing-4;
+  border: 1px solid hsl(var(--border) / 0.4);
+  border-radius: $radius-lg;
+  background: hsl(var(--muted) / 0.35);
+  transition:
+    transform $transition-fast,
+    border-color $transition-fast,
+    background $transition-fast;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: hsl(var(--primary) / 0.3);
+    background: hsl(var(--card) / 0.75);
+  }
+
+  h4 {
+    margin: 0 0 2px;
+    color: $foreground;
+    font-size: $font-size-sm;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+    color: $text-muted;
+    font-size: $font-size-xs;
+    font-weight: 500;
+  }
+}
+
+.cardIconWrapper {
+  @include flex-center;
+  flex-shrink: 0;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: $radius-md;
+  background: hsl(var(--primary) / 0.1);
+}
+
+.cardIconPink,
+.cardIconPurple {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.cardIconPink {
+  color: $accent;
+}
+
+.cardIconPurple {
+  color: $primary;
+}
+
+.mockGraph {
+  position: relative;
+  height: 120px;
+  overflow: hidden;
+  padding: $spacing-4;
+  border: 1px solid hsl(var(--border) / 0.4);
+  border-radius: $radius-lg;
+  background:
+    linear-gradient(
+      180deg,
+      hsl(var(--primary) / 0.07),
+      transparent
+    );
+}
+
+.graphHeader {
+  @include flex-between;
+
+  span {
+    color: $text-muted;
+    font-size: $font-size-xs;
+    font-weight: 600;
+
+    &:first-child {
+      color: $foreground;
+      font-weight: 700;
+    }
+  }
+}
+
+.graphBars {
+  position: absolute;
+  right: $spacing-4;
+  bottom: $spacing-4;
+  left: $spacing-4;
+  display: flex;
+  align-items: flex-end;
+  gap: $spacing-2;
+  height: 55px;
+
+  span {
+    flex: 1;
+    min-width: 0;
+    border-radius: $radius-sm $radius-sm 2px 2px;
+    background: linear-gradient(
+      180deg,
+      hsl(var(--primary) / 0.55),
+      hsl(var(--primary) / 0.08)
+    );
+
+    &:nth-child(1) {
+      height: 35%;
+    }
+
+    &:nth-child(2) {
+      height: 55%;
+    }
+
+    &:nth-child(3) {
+      height: 45%;
+    }
+
+    &:nth-child(4) {
+      height: 75%;
+    }
+
+    &:nth-child(5) {
+      height: 60%;
+    }
+
+    &:nth-child(6) {
+      height: 90%;
+    }
+
+    &:nth-child(7) {
+      height: 72%;
+    }
+  }
+}
+
+.graphIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1.8rem;
+  height: 1.8rem;
+  color: hsl(var(--primary) / 0.3);
+  transform: translate(-50%, -20%);
+}
+
+@include respond-to("sm") {
+  .heroSection {
+    padding-top: $spacing-16;
+  }
+}
+
+@media (max-width: 1023px) {
+  .contentLeft {
+    max-width: 680px;
+  }
+
+  .contentRight {
+    margin-top: $spacing-4;
+  }
+}
+
+@media (max-width: 639px) {
+  .heroSection {
+    min-height: auto;
+    padding: $spacing-20 0 $spacing-10;
+  }
+
+  .badge {
+    margin-bottom: $spacing-4;
+  }
+
+  .badgeText {
+    font-size: 0.68rem;
+  }
+
+  .title {
+    font-size: 2.25rem;
+  }
+
+  .description {
+    font-size: $font-size-base;
+    line-height: 1.65;
+  }
+
+  .primaryButton {
+    width: 100%;
+  }
+
+  .buttonGroup {
+    width: 100%;
+  }
+
+  .mockProgress {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .progressInfo span {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primaryButton,
+  .arrowIcon,
+  .mockCard {
+    transition: none;
+  }
+}

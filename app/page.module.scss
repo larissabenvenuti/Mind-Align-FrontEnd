@@ -1,0 +1,10 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.pageContainer {
+  @include flex-column;
+  min-height: 100vh;
+  width: 100%;
+  background-color: $background;
+  color: $foreground;
+}
