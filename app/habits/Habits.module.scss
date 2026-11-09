@@ -1,0 +1,521 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.pageContainer {
+  @include page-container;
+}
+
+.spacer {
+  height: $spacing-8;
+}
+
+.content {
+  @include page-content;
+}
+
+.wrapper {
+  max-width: 64rem;
+  margin: 0 auto;
+  @include flex-column;
+  gap: $spacing-8;
+}
+
+.header {
+  @include flex-column;
+  gap: $spacing-6;
+  position: relative;
+  z-index: 10;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  color: $muted-foreground;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $foreground;
+  }
+}
+
+.backIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.titleSection {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+  min-width: 0;
+}
+
+.iconBox {
+  position: relative;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: $radius-lg;
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.15), transparent);
+  border: 1px solid hsl(var(--primary) / 0.2);
+  @include flex-center;
+}
+
+.mainIcon {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: hsl(var(--primary));
+}
+
+.pulseIcon {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  width: 1rem;
+  height: 1rem;
+  color: hsl(var(--accent));
+}
+
+.title {
+  min-width: 0;
+  font-size: clamp($font-size-2xl, 6vw, $font-size-3xl);
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.subtitle {
+  color: $text-secondary;
+  font-size: $font-size-sm;
+}
+
+.mainContent {
+  @include flex-column;
+  gap: $spacing-6;
+}
+
+.inputCard {
+  @include card;
+  padding: $spacing-5;
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  min-width: 0;
+
+  @include respond-to("sm") {
+    flex-direction: row;
+  }
+}
+
+.textInput {
+  flex: 1;
+}
+
+.addButton {
+  background: transparent;
+  border: 1px solid hsl(var(--primary) / 0.45);
+  color: hsl(var(--primary));
+  white-space: nowrap;
+
+  &:hover {
+    background: hsl(var(--primary) / 0.08);
+    border-color: hsl(var(--primary));
+  }
+}
+
+.addIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: $spacing-2;
+}
+
+.tableCard {
+  @include card;
+  overflow: hidden;
+}
+
+.tableWrapper {
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  @include custom-scrollbar;
+}
+
+.desktopTable {
+  display: table;
+}
+
+.mobileHabitList {
+  display: none;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  min-width: 650px;
+}
+
+.thHabit {
+  padding: $spacing-4 $spacing-6;
+  font-size: $font-size-sm;
+  color: $text-secondary;
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+  width: 40%;
+}
+
+.thDay,
+.thActions {
+  padding: $spacing-4 $spacing-2;
+  font-size: $font-size-sm;
+  color: $text-secondary;
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+  text-align: center;
+}
+
+.thActions {
+  width: 10%;
+}
+
+.tableRow {
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: hsl(var(--muted) / 0.3);
+  }
+}
+
+.tdHabitName {
+  padding: $spacing-4 $spacing-6;
+  border-bottom: 1px solid hsl(var(--border) / 0.3);
+}
+
+.habitInfo {
+  @include flex-column;
+  gap: $spacing-1;
+
+  h3 {
+    font-size: $font-size-base;
+    color: $foreground;
+    font-weight: 600;
+  }
+}
+
+.habitStats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-3;
+  margin-top: 2px;
+}
+
+.statBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: $text-secondary;
+  font-weight: 500;
+  background: hsl(var(--muted) / 0.5);
+  padding: 2px 8px;
+  border-radius: $radius-full;
+}
+
+.tdCheckbox {
+  padding: $spacing-4 $spacing-2;
+  text-align: center;
+  border-bottom: 1px solid hsl(var(--border) / 0.3);
+}
+
+.checkboxBtn {
+  width: 2rem;
+  height: 2rem;
+  border-radius: $radius;
+  @include flex-center;
+  margin: 0 auto;
+  cursor: pointer;
+  transition: all $transition-fast;
+  border: 1px solid hsl(var(--border));
+
+  &.unchecked {
+    background: hsl(var(--background));
+    &:hover {
+      border-color: hsl(var(--primary));
+      background: hsl(var(--primary) / 0.05);
+    }
+  }
+
+  &.checked {
+    background: hsl(var(--primary));
+    border-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    box-shadow: 0 0 10px hsl(var(--primary) / 0.4);
+  }
+
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+.checkIcon {
+  width: 1rem;
+  height: 1rem;
+  color: hsl(var(--primary-foreground));
+}
+
+.tdActions {
+  padding: $spacing-4 $spacing-2;
+  text-align: center;
+  border-bottom: 1px solid hsl(var(--border) / 0.3);
+}
+
+.deleteBtn {
+  background: transparent;
+  color: $text-muted;
+  padding: $spacing-2;
+  border-radius: $radius;
+
+  &:hover {
+    background: hsl(var(--destructive) / 0.1);
+    color: hsl(var(--destructive));
+  }
+}
+
+.deleteIcon {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.loadingState {
+  @include flex-column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-12 0;
+  gap: $spacing-3;
+  color: $text-secondary;
+}
+
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid hsl(var(--muted));
+  border-top-color: hsl(var(--primary));
+  border-radius: $radius-full;
+}
+
+.emptyCell {
+  padding: 0;
+}
+
+.emptyState {
+  @include flex-column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-12 0;
+  gap: $spacing-3;
+  text-align: center;
+}
+
+.emptyIconBox {
+  width: 3rem;
+  height: 3rem;
+  border-radius: $radius-full;
+  background: hsl(var(--muted) / 0.5);
+  @include flex-center;
+  color: $text-muted;
+}
+
+.emptyIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.emptyText {
+  color: $text-muted;
+  font-size: $font-size-sm;
+}
+
+.mobileHabitCard {
+  @include card;
+  padding: $spacing-4;
+  background: hsl(var(--card) / 0.72);
+}
+
+.mobileHabitHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $spacing-3;
+}
+
+.mobileHabitInfo {
+  min-width: 0;
+
+  h3 {
+    overflow-wrap: anywhere;
+    color: $foreground;
+    font-size: $font-size-base;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  p {
+    margin-top: $spacing-1;
+    color: $muted-foreground;
+    font-size: $font-size-xs;
+  }
+}
+
+.mobileDeleteBtn {
+  flex: 0 0 2.875rem;
+  width: 2.875rem;
+  height: 2.875rem;
+  min-height: 2.875rem;
+  padding: 0;
+  border-color: hsl(var(--destructive) / 0.35);
+  color: hsl(var(--destructive));
+
+  &:hover {
+    background: hsl(var(--destructive) / 0.08);
+    border-color: hsl(var(--destructive));
+  }
+}
+
+.mobileHabitProgress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-2;
+  margin: $spacing-4 0 $spacing-3;
+  color: $muted-foreground;
+  font-size: $font-size-xs;
+
+  strong {
+    color: $primary;
+    font-weight: 700;
+  }
+}
+
+.mobileProgressTrack {
+  height: 0.35rem;
+  margin-bottom: $spacing-4;
+  overflow: hidden;
+  border-radius: $radius-full;
+  background: hsl(var(--muted) / 0.55);
+
+  span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: hsl(var(--primary));
+    transition: width $transition-base;
+  }
+}
+
+.mobileDayList {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: $spacing-1;
+}
+
+.mobileDayButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  width: 100%;
+  height: 3.25rem;
+  min-height: 3.25rem;
+  padding: 2px 0;
+  border-color: hsl(var(--border) / 0.7);
+  border-radius: $radius-md;
+  color: $muted-foreground;
+  font-size: 0.65rem;
+
+  &:hover {
+    background: hsl(var(--primary) / 0.06);
+    border-color: hsl(var(--primary) / 0.5);
+  }
+}
+
+.mobileDayChecked {
+  background: hsl(var(--primary) / 0.1);
+  border-color: hsl(var(--primary) / 0.55);
+  color: $primary;
+}
+
+.mobileDayCheck {
+  width: 0.9rem;
+  height: 0.9rem;
+  opacity: 0.18;
+
+  .mobileDayChecked & {
+    opacity: 1;
+  }
+}
+
+.mobileEmptyState {
+  @include flex-column;
+  align-items: center;
+  padding: $spacing-8 $spacing-4;
+  text-align: center;
+
+  .emptyTitle {
+    margin-bottom: $spacing-1;
+  }
+
+  .emptyText {
+    max-width: 20rem;
+  }
+}
+
+@include respond-down("sm") {
+  .inputCard {
+    padding: $spacing-4;
+  }
+
+  .textInput {
+    min-height: 2.875rem;
+    font-size: $font-size-base;
+  }
+
+  .addButton {
+    width: 100%;
+  }
+
+  .tableWrapper {
+    display: none;
+  }
+
+  .tableCard {
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .mobileHabitList {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    gap: $spacing-4;
+    padding: $spacing-1 0;
+  }
+
+  .mobileHabitCard {
+    width: 100%;
+    min-width: 0;
+    padding: $spacing-4;
+    border: 1px solid hsl(var(--border) / 0.65);
+    border-radius: $radius-xl;
+    background: hsl(var(--card) / 0.9);
+    box-shadow: $shadow-soft;
+  }
+}
