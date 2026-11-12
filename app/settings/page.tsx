@@ -12,6 +12,8 @@ import {
   Settings as SettingsIcon,
   Camera,
   Trash2,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 
 import Link from "next/link";
@@ -59,6 +61,11 @@ export default function SettingsPage() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const passwordsMatch =
+    newPassword === confirmPassword && confirmPassword.length > 0;
   const passwordRequirements = [
     { key: "length", text: "Mínimo de 8 caracteres", met: newPassword.length >= 8 },
     { key: "uppercase", text: "Uma letra maiúscula", met: /[A-Z]/.test(newPassword) },
@@ -117,13 +124,13 @@ export default function SettingsPage() {
   };
 
   const handleImageChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = e.target.files?.[0];
 
     if (!file) return;
 
-    if (!file.type.startsWith("image/")) {
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
       toast.error("Selecione uma imagem válida.");
       return;
     }
@@ -135,11 +142,48 @@ export default function SettingsPage() {
 
     const reader = new FileReader();
 
-    reader.onloadend = () => {
-      const result = reader.result as string;
+    reader.onerror = () => {
+      toast.error("Não foi possível ler a imagem selecionada.");
+    };
 
-      setImage(result);
-      setImagePreview(result);
+    reader.onload = () => {
+      const source = new Image();
+
+      source.onerror = () => {
+        toast.error("Não foi possível processar a imagem selecionada.");
+      };
+
+      source.onload = () => {
+        const maxDimension = 1600;
+        const scale = Math.min(
+          1,
+          maxDimension / Math.max(source.width, source.height),
+        );
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.round(source.width * scale);
+        canvas.height = Math.round(source.height * scale);
+
+        const context = canvas.getContext("2d");
+
+        if (!context) {
+          toast.error("Não foi possível processar a imagem selecionada.");
+          return;
+        }
+
+        context.drawImage(source, 0, 0, canvas.width, canvas.height);
+
+        const result = canvas.toDataURL("image/jpeg", 0.82);
+
+        if (result.length > 5_000_000) {
+          toast.error("A imagem processada excede o limite permitido.");
+          return;
+        }
+
+        setImage(result);
+        setImagePreview(result);
+      };
+
+      source.src = String(reader.result);
     };
 
     reader.readAsDataURL(file);
@@ -590,19 +634,37 @@ export default function SettingsPage() {
                         Senha Atual
                       </Label>
 
-                      <Input
-                        id="currentPassword"
-                        type="password"
-                        value={
-                          currentPassword
-                        }
-                        onChange={(e) =>
-                          setCurrentPassword(
-                            e.target.value
-                          )
-                        }
-                        required
-                      />
+                      <div className={styles.passwordWrapper}>
+                        <Input
+                          id="currentPassword"
+                          type={showCurrentPassword ? "text" : "password"}
+                          value={currentPassword}
+                          onChange={(e) =>
+                            setCurrentPassword(e.target.value)
+                          }
+                          className={styles.passwordInput}
+                          required
+                        />
+                        <button
+                          type="button"
+                          className={styles.eyeButton}
+                          onClick={() =>
+                            setShowCurrentPassword((value) => !value)
+                          }
+                          tabIndex={-1}
+                          aria-label={
+                            showCurrentPassword
+                              ? "Ocultar senha atual"
+                              : "Mostrar senha atual"
+                          }
+                        >
+                          {showCurrentPassword ? (
+                            <EyeOff size={15} />
+                          ) : (
+                            <Eye size={15} />
+                          )}
+                        </button>
+                      </div>
                     </div>
 
                     <div
@@ -614,17 +676,37 @@ export default function SettingsPage() {
                         Nova Senha
                       </Label>
 
-                      <Input
-                        id="newPassword"
-                        type="password"
-                        value={newPassword}
-                        onChange={(e) =>
-                          setNewPassword(
-                            e.target.value
-                          )
-                        }
-                        required
-                      />
+                      <div className={styles.passwordWrapper}>
+                        <Input
+                          id="newPassword"
+                          type={showNewPassword ? "text" : "password"}
+                          value={newPassword}
+                          onChange={(e) =>
+                            setNewPassword(e.target.value)
+                          }
+                          className={styles.passwordInput}
+                          required
+                        />
+                        <button
+                          type="button"
+                          className={styles.eyeButton}
+                          onClick={() =>
+                            setShowNewPassword((value) => !value)
+                          }
+                          tabIndex={-1}
+                          aria-label={
+                            showNewPassword
+                              ? "Ocultar nova senha"
+                              : "Mostrar nova senha"
+                          }
+                        >
+                          {showNewPassword ? (
+                            <EyeOff size={15} />
+                          ) : (
+                            <Eye size={15} />
+                          )}
+                        </button>
+                      </div>
                       {newPassword && (
                         <div className={styles.passwordRequirements}>
                           <p className={styles.passwordRequirementsTitle}>
@@ -650,19 +732,50 @@ export default function SettingsPage() {
                         Confirmar Nova Senha
                       </Label>
 
-                      <Input
-                        id="confirmPassword"
-                        type="password"
-                        value={
-                          confirmPassword
-                        }
-                        onChange={(e) =>
-                          setConfirmPassword(
-                            e.target.value
-                          )
-                        }
-                        required
-                      />
+                      <div className={styles.passwordWrapper}>
+                        <Input
+                          id="confirmPassword"
+                          type={showConfirmPassword ? "text" : "password"}
+                          value={confirmPassword}
+                          onChange={(e) =>
+                            setConfirmPassword(e.target.value)
+                          }
+                          className={styles.passwordInput}
+                          required
+                        />
+                        <button
+                          type="button"
+                          className={styles.eyeButton}
+                          onClick={() =>
+                            setShowConfirmPassword((value) => !value)
+                          }
+                          tabIndex={-1}
+                          aria-label={
+                            showConfirmPassword
+                              ? "Ocultar confirmação de senha"
+                              : "Mostrar confirmação de senha"
+                          }
+                        >
+                          {showConfirmPassword ? (
+                            <EyeOff size={15} />
+                          ) : (
+                            <Eye size={15} />
+                          )}
+                        </button>
+                      </div>
+                      {confirmPassword && (
+                        <p
+                          className={
+                            passwordsMatch
+                              ? styles.matchSuccess
+                              : styles.matchError
+                          }
+                        >
+                          {passwordsMatch
+                            ? "✓ As senhas coincidem"
+                            : "✗ As senhas não coincidem"}
+                        </p>
+                      )}
                     </div>
 
                     <Button

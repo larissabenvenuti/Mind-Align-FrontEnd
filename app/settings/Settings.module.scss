@@ -4,23 +4,23 @@
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
-  padding-bottom: 4rem;
+  padding-bottom: 0;
 }
 
 .spacer {
-  height: 70px;
+  height: 1rem;
 }
 
 .content {
   position: relative;
   z-index: 1;
   width: 100%;
-  padding: 2rem;
+  padding: 1rem 2rem 5rem;
 }
 
 .wrapper {
   width: 100%;
-  max-width: 1100px;
+  max-width: $content-max-width;
   margin: 0 auto;
 }
 
@@ -234,6 +234,57 @@
   gap: 0.5rem;
 
   margin-bottom: 1.25rem;
+}
+
+.passwordWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordInput {
+  padding-right: 3rem;
+}
+
+.eyeButton {
+  position: absolute;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: hsl(var(--primary));
+  cursor: pointer;
+
+  &:hover {
+    background: hsl(var(--primary) / 0.08);
+  }
+
+  &:focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+}
+
+.matchSuccess,
+.matchError {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.matchSuccess {
+  color: hsl(var(--success));
+  font-weight: 600;
+}
+
+.matchError {
+  color: hsl(var(--destructive));
 }
 
 .submitBtn {
@@ -515,7 +566,7 @@
 
 @media (max-width: 768px) {
   .content {
-    padding: 1.25rem;
+    padding: 1.25rem 1.25rem 4rem;
   }
 
   .settingsLayout {
@@ -558,11 +609,11 @@
 
 @media (max-width: 520px) {
   .spacer {
-    height: 55px;
+    height: 1rem;
   }
 
   .content {
-    padding: 1rem;
+    padding: 1rem 1rem 3rem;
   }
 
   .titleSection {
