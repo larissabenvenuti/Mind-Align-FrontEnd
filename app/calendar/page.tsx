@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import ptLocale from "@fullcalendar/core/locales/pt-br";
+import {
+  startTransition,
+  useEffect,
+  useState,
+} from "react";
+import type { EventClickArg } from "@fullcalendar/core";
+import type { DateClickArg } from "@fullcalendar/interaction";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Calendar as CalendarIcon,
   Sparkles,
@@ -17,47 +18,14 @@ import {
 import EventModal from "./components/EventModal/EventModal";
 import EventDetailsModal from "./components/EventModal/components/EventDetailsModal/EventDetailsModal";
 import { BulkEditModal } from "./components/EventModal/components/BulkEditModal/BulkEditModal";
+import CalendarViewCard from "./components/CalendarViewCard";
+import NextEventCard from "./components/NextEventCard";
 import { API_BASE_URL, api } from "../../lib/api";
 import { toast } from "../../lib/toast";
 import { useNotifications } from "../../hooks/useNotifications";
 import styles from "./Calendar.module.scss";
 import { Button } from "@/components/ui/Button/Button";
-
-interface CalendarEvent {
-  id: string;
-  title: string;
-  start: string;
-  end: string;
-  reminderMinutes?: number;
-  repeat?: string;
-}
-
-const CalendarSkeleton = () => (
-  <motion.div
-    className={styles.skeletonContainer}
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-  >
-    <div className={styles.skeletonTitle} />
-    <div className={styles.skeletonGrid}>
-      {[...Array(35)].map((_, i) => (
-        <motion.div
-          key={i}
-          className={styles.skeletonCell}
-          initial={{ opacity: 0.5 }}
-          animate={{ opacity: [0.5, 1] }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            repeatType: "reverse",
-            delay: i * 0.02,
-          }}
-        />
-      ))}
-    </div>
-  </motion.div>
-);
+import type { CalendarEvent, CalendarEventInput } from "./types";
 
 export default function CalendarPage() {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
@@ -97,8 +65,10 @@ export default function CalendarPage() {
       if (eventId) {
         const target = events.find((e) => e.id === eventId);
         if (target) {
-          setSelectedEvent(target);
-          setIsViewModalOpen(true);
+          startTransition(() => {
+            setSelectedEvent(target);
+            setIsViewModalOpen(true);
+          });
           window.history.replaceState(null, "", window.location.pathname);
         }
       }
@@ -111,7 +81,9 @@ export default function CalendarPage() {
       const [eventsData, prefsData] = await Promise.all([
         api.get<CalendarEvent[]>(`/api/calendar`),
         api
-          .get<any>(`/api/notifications/preferences`)
+          .get<{ reminderMinutesBefore?: number }>(
+            `/api/notifications/preferences`,
+          )
           .catch(() => ({ reminderMinutesBefore: 15 })),
       ]);
 
@@ -125,13 +97,13 @@ export default function CalendarPage() {
     }
   }
 
-  function handleDateClick(info: any) {
+  function handleDateClick(info: DateClickArg) {
     setCurrentDate(info.date);
     setSelectedEvent(null);
     setIsModalOpen(true);
   }
 
-  function handleEventClick(info: any) {
+  function handleEventClick(info: EventClickArg) {
     const clicked = events.find((e) => e.id === info.event.id);
     if (clicked) {
       setSelectedEvent(clicked);
@@ -152,7 +124,7 @@ export default function CalendarPage() {
     }
   }
 
-  async function handleSaveSimpleEvent(eventData: any) {
+  async function handleSaveSimpleEvent(eventData: CalendarEventInput) {
     try {
       if (eventData.id) {
         await api.put(`/api/calendar/${eventData.id}`, eventData);
@@ -191,7 +163,9 @@ export default function CalendarPage() {
     }
   }
 
-  async function handleBulkUpdateSingle(updatedEvent: any) {
+  async function handleBulkUpdateSingle(
+    updatedEvent: CalendarEventInput & { id: string },
+  ) {
     try {
       await api.put(`/api/calendar/${updatedEvent.id}`, updatedEvent);
 
@@ -204,7 +178,7 @@ export default function CalendarPage() {
     }
   }
 
-  async function handleBulkUpdateAll(updatedEvent: any) {
+  async function handleBulkUpdateAll(updatedEvent: CalendarEventInput) {
     if (!selectedEvent) return;
     try {
       const oldTitle = selectedEvent.title;
@@ -351,189 +325,28 @@ export default function CalendarPage() {
 
           <div className={styles.calendarGrid}>
             {!isLoading && (
-              <motion.article
-                className={styles.nextEventCard}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: 0.05,
-                  type: "spring",
-                  stiffness: 200,
-                  damping: 20,
+              <NextEventCard
+                event={getNextEvent()}
+                onViewEvent={(event) => {
+                  setSelectedEvent(event);
+                  setIsViewModalOpen(true);
                 }}
-              >
-                <div className={styles.cardHeader}>
-                  <div className={styles.cardIndicatorWrapper}>
-                    <div
-                      className={`${styles.indicator} ${styles.indicatorSuccess}`}
-                    />
-                    <h2 className={styles.cardTitle}>Próximo Evento</h2>
-                  </div>
-                </div>
-
-                <div className={styles.cardBody}>
-                  {getNextEvent() ? (
-                    <div className={styles.nextEventContent}>
-                      <h3 className={styles.nextEventTitle}>
-                        {getNextEvent()!.title}
-                      </h3>
-                      <p className={styles.nextEventTime}>
-                        {new Date(getNextEvent()!.start).toLocaleString(
-                          "pt-BR",
-                          {
-                            dateStyle: "long",
-                            timeStyle: "short",
-                          },
-                        )}
-                      </p>
-                      <p className={styles.nextEventDuration}>
-                        Duração:{" "}
-                        {Math.round(
-                          (new Date(getNextEvent()!.end).getTime() -
-                            new Date(getNextEvent()!.start).getTime()) /
-                            60000,
-                        )}{" "}
-                        minutos
-                      </p>
-                      <Button
-                        onClick={() => {
-                          setSelectedEvent(getNextEvent());
-                          setIsViewModalOpen(true);
-                        }}
-                        className={styles.viewEventBtn}
-                      >
-                        Ver Detalhes
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className={styles.emptyEventState}>
-                      <p>Nenhum evento agendado</p>
-                    </div>
-                  )}
-                </div>
-              </motion.article>
+              />
             )}
-
-            <motion.article
-              className={styles.calendarCard}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: 0.1,
-                type: "spring",
-                stiffness: 200,
-                damping: 20,
-              }}
-            >
-              <div className={styles.cardHeader}>
-                <div className={styles.cardIndicatorWrapper}>
-                  <div
-                    className={`${styles.indicator} ${styles.indicatorPrimary}`}
-                  />
-                  <h2 className={styles.cardTitle}>Visão Mensal</h2>
-                </div>
-              </div>
-
-              <div className={styles.cardBody}>
-                <AnimatePresence mode="wait">
-                  {isLoading ? (
-                    <CalendarSkeleton key="skeleton-month" />
-                  ) : (
-                    <motion.div
-                      key="calendar-month"
-                      className={styles.fcWrapper}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <FullCalendar
-                        plugins={[dayGridPlugin, interactionPlugin]}
-                        initialView="dayGridMonth"
-                        locale={ptLocale}
-                        headerToolbar={{
-                          left: "prev,next",
-                          center: "title",
-                          right: "today",
-                        }}
-                        events={events}
-                        editable={false}
-                        selectable
-                        dateClick={handleDateClick}
-                        eventClick={handleEventClick}
-                        height="auto"
-                        contentHeight="auto"
-                        dayHeaderFormat={{ weekday: "short" }}
-                      />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </motion.article>
-
-            <motion.article
-              className={styles.calendarCard}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: 0.2,
-                type: "spring",
-                stiffness: 200,
-                damping: 20,
-              }}
-            >
-              <div className={styles.cardHeader}>
-                <div className={styles.cardIndicatorWrapper}>
-                  <div
-                    className={`${styles.indicator} ${styles.indicatorSecondary}`}
-                  />
-                  <h2 className={styles.cardTitle}>Visão Diária</h2>
-                </div>
-              </div>
-
-              <div className={styles.cardBody}>
-                <AnimatePresence mode="wait">
-                  {isLoading ? (
-                    <CalendarSkeleton key="skeleton-day" />
-                  ) : (
-                    <motion.div
-                      key="calendar-day"
-                      className={styles.fcWrapper}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <FullCalendar
-                        plugins={[timeGridPlugin, interactionPlugin]}
-                        initialView="timeGridDay"
-                        locale={ptLocale}
-                        headerToolbar={{
-                          left: "prev,next",
-                          center: "title",
-                          right: "today",
-                        }}
-                        events={events}
-                        editable={false}
-                        selectable
-                        dateClick={handleDateClick}
-                        eventClick={handleEventClick}
-                        height="auto"
-                        contentHeight="auto"
-                        allDaySlot={false}
-                        slotMinTime="06:00:00"
-                        slotMaxTime="23:00:00"
-                        dayHeaderFormat={{ weekday: "long", day: "numeric" }}
-                        slotLabelFormat={{
-                          hour: "2-digit",
-                          minute: "2-digit",
-                          omitZeroMinute: false,
-                          meridiem: false,
-                        }}
-                      />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </motion.article>
+            <CalendarViewCard
+              view="month"
+              events={events}
+              isLoading={isLoading}
+              onDateClick={handleDateClick}
+              onEventClick={handleEventClick}
+            />
+            <CalendarViewCard
+              view="day"
+              events={events}
+              isLoading={isLoading}
+              onDateClick={handleDateClick}
+              onEventClick={handleEventClick}
+            />
           </div>
         </div>
       </div>
