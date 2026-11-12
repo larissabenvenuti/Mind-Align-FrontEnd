@@ -6,6 +6,7 @@ import { api } from "../../../lib/api";
 import { toast } from "../../../lib/toast";
 import { Button } from "../../../components/ui/Button/Button";
 import { Label } from "../../../components/ui/Label/Label";
+import NotificationToggle from "./NotificationToggle";
 
 import styles from "../Settings.module.scss";
 
@@ -77,56 +78,27 @@ export default function NotificationSettings() {
         Preferências de Notificações Push
       </h2>
 
-      <div className={styles.toggleGroup}>
-        <Label className={styles.toggleLabel}>
-          <input
-            type="checkbox"
-            checked={notifPrefs.eventReminders}
-            onChange={(e) =>
-              setNotifPrefs({
-                ...notifPrefs,
-                eventReminders: e.target.checked,
-              })
-            }
-            className={styles.checkbox}
-          />
-          <span>Lembretes de Eventos do Calendário</span>
-        </Label>
-      </div>
-
-      <div className={styles.toggleGroup}>
-        <Label className={styles.toggleLabel}>
-          <input
-            type="checkbox"
-            checked={notifPrefs.habitReminders}
-            onChange={(e) =>
-              setNotifPrefs({
-                ...notifPrefs,
-                habitReminders: e.target.checked,
-              })
-            }
-            className={styles.checkbox}
-          />
-          <span>Lembretes de Hábitos Diários</span>
-        </Label>
-      </div>
-
-      <div className={styles.toggleGroup}>
-        <Label className={styles.toggleLabel}>
-          <input
-            type="checkbox"
-            checked={notifPrefs.dailyTaskSummary}
-            onChange={(e) =>
-              setNotifPrefs({
-                ...notifPrefs,
-                dailyTaskSummary: e.target.checked,
-              })
-            }
-            className={styles.checkbox}
-          />
-          <span>Resumo Diário de Tarefas</span>
-        </Label>
-      </div>
+      <NotificationToggle
+        label="Lembretes de Eventos do Calendário"
+        checked={notifPrefs.eventReminders}
+        onChange={(eventReminders) =>
+          setNotifPrefs({ ...notifPrefs, eventReminders })
+        }
+      />
+      <NotificationToggle
+        label="Lembretes de Hábitos Diários"
+        checked={notifPrefs.habitReminders}
+        onChange={(habitReminders) =>
+          setNotifPrefs({ ...notifPrefs, habitReminders })
+        }
+      />
+      <NotificationToggle
+        label="Resumo Diário de Tarefas"
+        checked={notifPrefs.dailyTaskSummary}
+        onChange={(dailyTaskSummary) =>
+          setNotifPrefs({ ...notifPrefs, dailyTaskSummary })
+        }
+      />
 
       <div className={styles.inputGroup} style={{ marginTop: "1rem" }}>
         <Label htmlFor="remindBefore">

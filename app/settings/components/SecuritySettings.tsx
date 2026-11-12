@@ -1,14 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
 
 import { api } from "../../../lib/api";
 import { toast } from "../../../lib/toast";
 import { Button } from "../../../components/ui/Button/Button";
-import { Input } from "../../../components/ui/Input/Input";
-import { Label } from "../../../components/ui/Label/Label";
 import { PasswordRequirement } from "../../auth/components/PasswordRequirement/PasswordRequirement";
+import PasswordField from "./PasswordField";
 
 import styles from "../Settings.module.scss";
 
@@ -17,15 +15,24 @@ export default function SecuritySettings() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const passwordsMatch =
     newPassword === confirmPassword && confirmPassword.length > 0;
   const passwordRequirements = [
-    { key: "length", text: "Mínimo de 8 caracteres", met: newPassword.length >= 8 },
-    { key: "uppercase", text: "Uma letra maiúscula", met: /[A-Z]/.test(newPassword) },
-    { key: "lowercase", text: "Uma letra minúscula", met: /[a-z]/.test(newPassword) },
+    {
+      key: "length",
+      text: "Mínimo de 8 caracteres",
+      met: newPassword.length >= 8,
+    },
+    {
+      key: "uppercase",
+      text: "Uma letra maiúscula",
+      met: /[A-Z]/.test(newPassword),
+    },
+    {
+      key: "lowercase",
+      text: "Uma letra minúscula",
+      met: /[a-z]/.test(newPassword),
+    },
     { key: "number", text: "Um número", met: /\d/.test(newPassword) },
     {
       key: "special",
@@ -80,54 +87,21 @@ export default function SecuritySettings() {
         Crie uma senha forte que atenda aos requisitos abaixo.
       </div>
 
-      <div className={styles.inputGroup}>
-        <Label htmlFor="currentPassword">Senha Atual</Label>
-        <div className={styles.passwordWrapper}>
-          <Input
-            id="currentPassword"
-            type={showCurrentPassword ? "text" : "password"}
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            className={styles.passwordInput}
-            required
-          />
-          <button
-            type="button"
-            className={styles.eyeButton}
-            onClick={() => setShowCurrentPassword((value) => !value)}
-            tabIndex={-1}
-            aria-label={
-              showCurrentPassword ? "Ocultar senha atual" : "Mostrar senha atual"
-            }
-          >
-            {showCurrentPassword ? <EyeOff size={15} /> : <Eye size={15} />}
-          </button>
-        </div>
-      </div>
+      <PasswordField
+        id="currentPassword"
+        label="Senha Atual"
+        description="senha atual"
+        value={currentPassword}
+        onChange={setCurrentPassword}
+      />
 
-      <div className={styles.inputGroup}>
-        <Label htmlFor="newPassword">Nova Senha</Label>
-        <div className={styles.passwordWrapper}>
-          <Input
-            id="newPassword"
-            type={showNewPassword ? "text" : "password"}
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            className={styles.passwordInput}
-            required
-          />
-          <button
-            type="button"
-            className={styles.eyeButton}
-            onClick={() => setShowNewPassword((value) => !value)}
-            tabIndex={-1}
-            aria-label={
-              showNewPassword ? "Ocultar nova senha" : "Mostrar nova senha"
-            }
-          >
-            {showNewPassword ? <EyeOff size={15} /> : <Eye size={15} />}
-          </button>
-        </div>
+      <PasswordField
+        id="newPassword"
+        label="Nova Senha"
+        description="nova senha"
+        value={newPassword}
+        onChange={setNewPassword}
+      >
         {newPassword && (
           <div className={styles.passwordRequirements}>
             <p className={styles.passwordRequirementsTitle}>
@@ -142,33 +116,15 @@ export default function SecuritySettings() {
             ))}
           </div>
         )}
-      </div>
+      </PasswordField>
 
-      <div className={styles.inputGroup}>
-        <Label htmlFor="confirmPassword">Confirmar Nova Senha</Label>
-        <div className={styles.passwordWrapper}>
-          <Input
-            id="confirmPassword"
-            type={showConfirmPassword ? "text" : "password"}
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className={styles.passwordInput}
-            required
-          />
-          <button
-            type="button"
-            className={styles.eyeButton}
-            onClick={() => setShowConfirmPassword((value) => !value)}
-            tabIndex={-1}
-            aria-label={
-              showConfirmPassword
-                ? "Ocultar confirmação de senha"
-                : "Mostrar confirmação de senha"
-            }
-          >
-            {showConfirmPassword ? <EyeOff size={15} /> : <Eye size={15} />}
-          </button>
-        </div>
+      <PasswordField
+        id="confirmPassword"
+        label="Confirmar Nova Senha"
+        description="confirmação de senha"
+        value={confirmPassword}
+        onChange={setConfirmPassword}
+      >
         {confirmPassword && (
           <p className={passwordsMatch ? styles.matchSuccess : styles.matchError}>
             {passwordsMatch
@@ -176,7 +132,7 @@ export default function SecuritySettings() {
               : "✗ As senhas não coincidem"}
           </p>
         )}
-      </div>
+      </PasswordField>
 
       <Button
         type="submit"
