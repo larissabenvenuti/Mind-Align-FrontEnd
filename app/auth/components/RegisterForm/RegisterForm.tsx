@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/Input/Input";
 import { Label } from "@/components/ui/Label/Label";
 import { useAuth } from "@/hooks/useAuth";
 import { PasswordRequirement } from "../PasswordRequirement/PasswordRequirement";
+import { getPasswordRequirements } from "../../../../lib/passwordPolicy";
 import styles from "./register-form.module.scss";
 
 export function RegisterForm() {
@@ -35,35 +36,7 @@ export function RegisterForm() {
     loading,
   } = useAuth();
 
-  const requirements = [
-    {
-      key: "length",
-      text: "Mínimo de 8 caracteres",
-      met: password.length >= 8,
-    },
-    {
-      key: "uppercase",
-      text: "Uma letra maiúscula",
-      met: /[A-Z]/.test(password),
-    },
-    {
-      key: "lowercase",
-      text: "Uma letra minúscula",
-      met: /[a-z]/.test(password),
-    },
-    {
-      key: "number",
-      text: "Um número",
-      met: /\d/.test(password),
-    },
-    {
-      key: "special",
-      text: "Um caractere especial (!@#$%...)",
-      met: /[!@#$%^&*(),.?":{}|<>]/.test(
-        password,
-      ),
-    },
-  ];
+  const requirements = getPasswordRequirements(password);
 
   const pendingRequirements =
     requirements.filter(
@@ -126,10 +99,11 @@ export function RegisterForm() {
       toast.success(
         "Conta criada! Bem-vindo ao MindAlign.",
       );
-    } catch (err: any) {
+    } catch (err: unknown) {
       toast.error(
-        err.message ||
-          "Erro ao cadastrar. Tente novamente.",
+        err instanceof Error
+          ? err.message
+          : "Erro ao cadastrar. Tente novamente.",
       );
     }
   };

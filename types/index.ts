@@ -15,8 +15,9 @@ export interface CalendarEvent {
   title: string;
   start: string;
   end: string;
-  reminderMinutes?: number;
-  repeat?: 'weekly' | 'monthly';
+  reminderMinutes: number;
+  repeat: "weekly" | "monthly" | null;
+  userId: string;
 }
 export interface Tag {
   id: string;

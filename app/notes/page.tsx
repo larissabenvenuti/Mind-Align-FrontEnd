@@ -25,7 +25,8 @@ export default function NotesPage() {
   const [contentText, setContentText] = useState("");
 
   const charCount = contentText.length;
-  const canSave = contentText.trim().length > 0;
+  const canSave =
+    contentText.trim().length > 0 && charCount <= MAX_CHARACTERS;
 
   useEffect(() => {
     loadNotes();
@@ -61,14 +62,18 @@ export default function NotesPage() {
     try {
       const data = await api.get<Note[]>(`/api/notes`);
       setNotes(data);
-    } catch (err) {
+    } catch {
       toast.error("Erro ao buscar notas");
     }
   }
 
   async function handleSaveNote() {
     if (!canSave) {
-      toast.error("A nota não pode estar vazia.");
+      toast.error(
+        charCount > MAX_CHARACTERS
+          ? `A nota pode ter no máximo ${MAX_CHARACTERS} caracteres.`
+          : "A nota não pode estar vazia.",
+      );
       return;
     }
 
@@ -82,7 +87,9 @@ export default function NotesPage() {
 
       await loadNotes();
     } catch (err) {
-      toast.error("Erro ao salvar nota.");
+      toast.error(
+        err instanceof Error ? err.message : "Erro ao salvar nota.",
+      );
     } finally {
       setLoading(false);
     }

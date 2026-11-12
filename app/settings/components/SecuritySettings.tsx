@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { api } from "../../../lib/api";
 import { toast } from "../../../lib/toast";
+import { getPasswordRequirements } from "../../../lib/passwordPolicy";
 import { Button } from "../../../components/ui/Button/Button";
 import { PasswordRequirement } from "../../auth/components/PasswordRequirement/PasswordRequirement";
 import PasswordField from "./PasswordField";
@@ -17,29 +18,7 @@ export default function SecuritySettings() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const passwordsMatch =
     newPassword === confirmPassword && confirmPassword.length > 0;
-  const passwordRequirements = [
-    {
-      key: "length",
-      text: "Mínimo de 8 caracteres",
-      met: newPassword.length >= 8,
-    },
-    {
-      key: "uppercase",
-      text: "Uma letra maiúscula",
-      met: /[A-Z]/.test(newPassword),
-    },
-    {
-      key: "lowercase",
-      text: "Uma letra minúscula",
-      met: /[a-z]/.test(newPassword),
-    },
-    { key: "number", text: "Um número", met: /\d/.test(newPassword) },
-    {
-      key: "special",
-      text: "Um caractere especial (!@#$%...)",
-      met: /[!@#$%^&*(),.?":{}|<>]/.test(newPassword),
-    },
-  ];
+  const passwordRequirements = getPasswordRequirements(newPassword);
 
   const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault();

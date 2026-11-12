@@ -4,9 +4,15 @@ export interface CalendarEventInput {
   start: string;
   end: string;
   reminderMinutes?: number;
-  repeat?: string;
+  repeat?: "weekly" | "monthly" | null;
 }
 
-export interface CalendarEvent extends CalendarEventInput {
+export interface CalendarEvent {
   id: string;
+  title: string;
+  start: string;
+  end: string;
+  reminderMinutes: number;
+  repeat: "weekly" | "monthly" | null;
+  userId: string;
 }
