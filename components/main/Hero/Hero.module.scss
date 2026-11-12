@@ -3,11 +3,11 @@
 
 .heroSection {
   position: relative;
-  min-height: 100svh;
+  min-height: calc(100svh - 4rem);
   display: flex;
   align-items: center;
   overflow: hidden;
-  padding: $spacing-20 0 $spacing-12;
+  padding: $spacing-12 0 $spacing-12;
   background:
     radial-gradient(
       circle at 15% 35%,
@@ -34,7 +34,7 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 80rem;
+  max-width: $content-max-width;
   margin: 0 auto;
   padding: 0 $spacing-5;
 
@@ -500,7 +500,7 @@
 
 @include respond-to("sm") {
   .heroSection {
-    padding-top: $spacing-16;
+    padding-top: $spacing-10;
   }
 }
 
@@ -517,7 +517,7 @@
 @media (max-width: 639px) {
   .heroSection {
     min-height: auto;
-    padding: $spacing-20 0 $spacing-10;
+    padding: $spacing-8 0 $spacing-10;
   }
 
   .badge {

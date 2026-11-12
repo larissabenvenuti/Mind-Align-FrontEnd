@@ -24,7 +24,7 @@
 .authCard {
   @include glassmorphism-strong;
   width: 100%;
-  max-width: 1100px;
+  max-width: $content-max-width;
   min-height: 720px;
   display: grid;
   grid-template-columns: 1fr;

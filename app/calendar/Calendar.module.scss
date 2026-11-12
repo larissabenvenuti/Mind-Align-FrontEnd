@@ -5,12 +5,12 @@
   @include page-container;
   @include page-content;
   width: 100%;
-  max-width: 80rem;
+  max-width: $content-max-width;
   min-width: 0;
 }
 
 .spacer {
-  height: $spacing-8;
+  height: $spacing-4;
 }
 
 .headerGroup {

@@ -18,7 +18,7 @@
 }
 
 .container {
-  max-width: 80rem;
+  max-width: $content-max-width;
   margin: 0 auto;
   padding: $spacing-3 $spacing-3;
   

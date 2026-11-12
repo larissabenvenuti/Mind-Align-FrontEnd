@@ -25,7 +25,7 @@
 }
 
 .spacer {
-  height: $spacing-6;
+  height: $spacing-4;
 }
 
 .layoutWrapper {
@@ -176,7 +176,7 @@
 
   gap: $spacing-6;
 
-  max-width: 76rem;
+  max-width: $content-max-width;
   margin: 0 auto;
 
   position: relative;

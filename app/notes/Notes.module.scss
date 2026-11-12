@@ -6,7 +6,7 @@
 }
 
 .spacer {
-  height: $spacing-8;
+  height: $spacing-4;
 }
 
 .content {
@@ -14,7 +14,7 @@
 }
 
 .wrapper {
-  max-width: 64rem;
+  max-width: $content-max-width;
   margin: 0 auto;
   @include flex-column;
   gap: $spacing-8;

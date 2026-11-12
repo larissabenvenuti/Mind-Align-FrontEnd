@@ -10,7 +10,7 @@
 }
 
 .container {
-  max-width: 80rem;
+  max-width: $content-max-width;
   margin: 0 auto;
   padding: 0 $spacing-4;
   display: flex;

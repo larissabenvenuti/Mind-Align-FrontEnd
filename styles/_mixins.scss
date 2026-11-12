@@ -211,14 +211,15 @@
 }
 @mixin page-content {
   position: relative;
-  max-width: 80rem;
+  width: 100%;
+  max-width: $content-max-width;
   margin: 0 auto;
-  padding: $spacing-6 $spacing-4;
+  padding: $spacing-4 $spacing-4 $spacing-12;
   @include respond-to("sm") {
-    padding: $spacing-8 $spacing-6;
+    padding: $spacing-6 $spacing-6 $spacing-16;
   }
   @include respond-to("lg") {
-    padding: $spacing-10 $spacing-8;
+    padding: $spacing-6 $spacing-8 $spacing-20;
   }
 }
 @mixin orb($size, $alpha: 0.18) {
